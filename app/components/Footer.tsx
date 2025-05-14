@@ -2,7 +2,7 @@
 
 import { Footer as FooterLib } from "@julianelda/scratchpad";
 
-export default function Footer() {
+export function Footer() {
   return (
     <FooterLib
       label="Julius Polar@GitHub"
