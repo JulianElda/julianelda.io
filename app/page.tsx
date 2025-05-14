@@ -1,3 +1,4 @@
+import Footer from "./Footer";
 import Heading from "./Heading";
 import Link from "./Link";
 
@@ -5,38 +6,18 @@ export default function Home() {
   return (
     <>
       <div className="mx-auto max-w-4xl text-xl md:pb-10">
-        <h1 className="text-center font-heading text-3xl font-semibold md:pt-4 md:text-start">
+        <h1 className="text-center font-heading text-3xl font-semibold md:py-4 md:text-start">
           Julius Polar
         </h1>
 
-        <Heading title="About me" />
         <p>
           I&apos;m a front-end developer, tech-enthusiast, and gamer. I have
           been working as a developer for over a decade, built many
           web-applications with various technologies.
         </p>
 
-        <Heading title="Work" />
-        <p>
-          I&apos;m currently working at{" "}
-          <Link
-            title="Snke OS"
-            href="https://www.snke.com/"
-          />{" "}
-          as a software engineer.
-        </p>
+        <Heading title="Stuff I made" />
 
-        <Heading title="Personal projects" />
-        <p>
-          I also developed various web-applications on my own, check them out.
-        </p>
-        <p className="pt-4">
-          <Link
-            title="Planning Poker"
-            href="https://julianelda.io/planning-poker/"
-          />
-        </p>
-        <p>Online Scrum/Planning poker.</p>
         <p className="pt-4">
           <Link
             title="meter"
@@ -45,7 +26,17 @@ export default function Home() {
         </p>
         <p>
           Tools and converters. Convert various units like time, weight, volume.
+          Generate password, guid, lorem ipsum etc.
         </p>
+
+        <p className="pt-4">
+          <Link
+            title="Planning Poker"
+            href="https://julianelda.io/planning-poker/"
+          />
+        </p>
+        <p>Online Scrum/Planning poker.</p>
+
         <p className="pt-4">
           <Link
             title="f4"
@@ -54,7 +45,7 @@ export default function Home() {
         </p>
         <p>
           A theorycrafting tool for Final Fantasy XIV&apos;s Black Mage. Compare
-          specified rotation to standard rotation.
+          specified rotation to standard rotation. For patch 6.x.
         </p>
         <p className="pt-4">
           <Link
@@ -78,6 +69,7 @@ export default function Home() {
           too.
         </p>
       </div>
+      <Footer />
     </>
   );
 }
