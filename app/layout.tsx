@@ -64,7 +64,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${heliotrope3.variable} ${heliotrope4.variable} antialiased`}>
-      <body className="bg-gray-50 p-2 font-serif text-neutral-900 dark:bg-gray-800 dark:text-gray-50">
+      <body className="bg-app-background-light text-app-text-light dark:bg-app-background-dark dark:text-app-text-dark size-full font-serif">
         {children}
       </body>
     </html>
