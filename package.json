@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@julianelda/scratchpad": "^1.9.0",
+    "@julianelda/scratchpad": "^1.10.0",
     "@julianelda/stilo": "^1.0.2",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
