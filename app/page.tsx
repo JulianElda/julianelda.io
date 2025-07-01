@@ -1,5 +1,5 @@
-import { Card } from "./components/Card";
-import { Footer } from "./components/Footer";
+import { Card } from "./components/card";
+import { Footer } from "./components/footer";
 import Content from "./contents.mdx";
 
 export default function Home() {

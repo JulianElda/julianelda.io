@@ -1,15 +1,16 @@
 import type { MDXComponents } from "mdx/types";
-import Link from "./app/components/Link";
-import { PageTitle } from "./app/components/PageTitle";
-import Heading from "./app/components/Heading";
+
+import { Heading } from "./app/components/heading";
+import { Link } from "./app/components/link";
+import { PageTitle } from "./app/components/page-title";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     a(props) {
       return (
         <Link
+          href={props.href}
           title={props.children as string}
-          href={props.href!}
         />
       );
     },

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+
 import localFont from "next/font/local";
+
 import "./globals.css";
 
 const heliotrope3 = localFont({
+  display: "swap",
   src: [
     {
       path: "./../node_modules/@julianelda/stilo/fonts/heliotrope_3_regular.woff2",
@@ -22,11 +25,11 @@ const heliotrope3 = localFont({
       weight: "bold",
     },
   ],
-  display: "swap",
   variable: "--font-heliotrope3",
 });
 
 const heliotrope4 = localFont({
+  display: "swap",
   src: [
     {
       path: "./../node_modules/@julianelda/stilo/fonts/heliotrope_4_regular.woff2",
@@ -46,13 +49,13 @@ const heliotrope4 = localFont({
       weight: "bold",
     },
   ],
-  display: "swap",
   variable: "--font-heliotrope4",
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
-  title: "Julius Polar - Front-end developer",
   description: "Julius Polar's Homepage",
+  title: "Julius Polar - Front-end developer",
 };
 
 export default function RootLayout({
@@ -62,8 +65,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${heliotrope3.variable} ${heliotrope4.variable} antialiased`}>
+      className={`${heliotrope3.variable} ${heliotrope4.variable} antialiased`}
+      lang="en">
       <body className="bg-app-background-light text-app-text-light dark:bg-app-background-dark dark:text-app-text-dark size-full font-serif">
         {children}
       </body>

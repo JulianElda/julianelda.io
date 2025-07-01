@@ -2,11 +2,11 @@
 
 import { Hyperlink } from "@julianelda/scratchpad";
 
-export default function Link({ title, href }: { title: string; href: string }) {
+export function Link({ href, title }: { href: string; title: string }) {
   return (
     <Hyperlink
-      title={title}
       href={href}
+      title={title}
     />
   );
 }

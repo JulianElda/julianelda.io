@@ -2,9 +2,9 @@
 
 import { Card as CardLib } from "@julianelda/scratchpad";
 
-type CardProps = {
+interface CardProps {
   children: React.ReactNode;
-};
+}
 
 export function Card(props: CardProps) {
   return <CardLib>{props.children}</CardLib>;
