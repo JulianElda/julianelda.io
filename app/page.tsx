@@ -5,7 +5,11 @@ import Content from "./contents.mdx";
 export default function Home() {
   return (
     <>
-      <div className="mx-auto max-w-xl text-xl md:pb-16">
+      <div
+        className={`
+          mx-auto max-w-xl text-xl
+          md:pb-16
+        `}>
         <Card>
           <Content />
         </Card>
