@@ -1,0 +1,15 @@
+## Inspect and compare
+
+```bash
+# Show commits on branch2 that are not on branch1
+git log [branch1]..[branch2]
+
+# Show diff on branch2 that is not on branch1
+git diff [branch1]...[branch2]
+
+# Show diff on branch2 that is not on branch1 for a specific file
+git diff [branch1]...[branch2] -- [file]
+
+# Show commit history for a specific file, including renames
+git log --follow [file]
+```

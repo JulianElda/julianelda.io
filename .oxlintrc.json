@@ -1,0 +1,4 @@
+{
+  "extends": ["./node_modules/@julianelda/lexis/.oxlintrc.json"],
+  "plugins": ["jsx-a11y", "nextjs"]
+}

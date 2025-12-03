@@ -1,0 +1,13 @@
+## Rebase and rewriting history
+
+```bash
+# Move current branch to commit-sha and reset staging area,
+# but keep working directory unchanged
+git reset [commit-sha]
+
+# Reapply commits on top of another base tip
+git rebase [branch]
+
+# Interactive rebase to edit, reorder, squash commits
+git rebase --interactive [commit-sha]
+```

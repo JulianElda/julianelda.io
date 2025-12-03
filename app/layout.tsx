@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import localFont from "next/font/local";
 
+import { Footer } from "@/components/footer";
+
 import "./globals.css";
 
 const heliotrope3 = localFont({
@@ -52,7 +54,6 @@ const heliotrope4 = localFont({
   variable: "--font-heliotrope4",
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   description: "Julius Polar's Homepage",
   title: "Julius Polar - Front-end developer",
@@ -65,10 +66,19 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className={`${heliotrope3.variable} ${heliotrope4.variable} antialiased`}
+      className={`
+        ${heliotrope3.variable}
+        ${heliotrope4.variable}
+        antialiased
+      `}
       lang="en">
-      <body className="bg-app-background-light text-app-text-light dark:bg-app-background-dark dark:text-app-text-dark size-full font-serif">
+      <body
+        className={`
+          size-full bg-app-background-light pb-12 font-serif text-app-text-light
+          dark:bg-app-background-dark dark:text-app-text-dark
+        `}>
         {children}
+        <Footer />
       </body>
     </html>
   );

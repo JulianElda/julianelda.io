@@ -1,20 +1,17 @@
-import { Card } from "./components/card";
-import { Footer } from "./components/footer";
+import { Card } from "@/components/card";
+
 import Content from "./contents.mdx";
 
 export default function Home() {
   return (
-    <>
-      <div
-        className={`
-          mx-auto max-w-xl text-xl
-          md:pb-16
-        `}>
-        <Card>
-          <Content />
-        </Card>
-      </div>
-      <Footer />
-    </>
+    <div
+      className={`
+        mx-auto max-w-xl text-xl
+        md:pb-16
+      `}>
+      <Card>
+        <Content />
+      </Card>
+    </div>
   );
 }

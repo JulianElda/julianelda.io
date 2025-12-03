@@ -1,22 +1,22 @@
-import lexis from "@julianelda/lexis/react";
-import next from "@next/eslint-plugin-next";
+import lexis from "@julianelda/lexis";
+import tailwind from "@julianelda/lexis/tsx-tailwind";
+import tsParser from "@typescript-eslint/parser";
 
-const eslintConfig = [
+export default [
+  ...tailwind,
   {
-    plugins: {
-      "@next/next": next,
+    files: ["**/*.{ts,tsx,cts,mts}"],
+    languageOptions: {
+      parser: tsParser,
     },
-    rules: {
-      ...next.configs.recommended.rules,
-      ...next.configs["core-web-vitals"].rules,
+  },
+  {
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "app/globals.css",
+        tsconfig: "tsconfig.json",
+      },
     },
   },
   ...lexis,
-  {
-    rules: {
-      "unicorn/prevent-abbreviations": "off",
-    },
-  },
 ];
-
-export default eslintConfig;

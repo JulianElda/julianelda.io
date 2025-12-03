@@ -1,8 +1,8 @@
 import type { MDXComponents } from "mdx/types";
 
-import { Heading } from "./app/components/heading";
-import { Link } from "./app/components/link";
-import { PageTitle } from "./app/components/page-title";
+import { Heading } from "./components/heading";
+import { Link } from "./components/link";
+import { PageTitle } from "./components/page-title";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {

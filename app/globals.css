@@ -27,7 +27,8 @@
 body {
   --grid-color: 150;
   background-size: 1.75rem 1.75rem;
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       to right,
       rgba(var(--grid-color), var(--grid-color), var(--grid-color), 0.03) 1px,
       transparent 1px
