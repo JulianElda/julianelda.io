@@ -1,9 +1,21 @@
+<script>
+  import { Card } from "@julianelda/domos";
+</script>
+
 <svelte:head>
   <title>Julius Polar - Front-end developer</title>
   <meta
-    name="description"
-    content="Julius Polar's Homepage" />
+    content="Julius Polar's Homepage"
+    name="description" />
+  <meta
+    content="Julius Polar - Front-end developer"
+    property="og:title" />
+  <meta
+    content="Julius Polar's Homepage"
+    property="og:description" />
 </svelte:head>
+
+<Card>
 
 <div class="prose dark:prose-invert prose-headings:font-heading mx-auto">
 
@@ -39,3 +51,5 @@ You can contact me via [LinkedIn](https://www.linkedin.com/in/julius-polar/).
 Check out my [GitHub](https://github.com/JulianElda) too.
 
 </div>
+
+</Card>
