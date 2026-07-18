@@ -14,8 +14,7 @@
     <GithubButton {link} />
     <Hyperlink
       asterisk={true}
-      href="https://julianelda.io"
-      title="Julius Polar" />
+      href="https://julianelda.io">Julius Polar</Hyperlink>
   </div>
   <ThemeToggle />
 </footer>

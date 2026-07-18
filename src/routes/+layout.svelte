@@ -26,7 +26,7 @@
     property="og:url" />
 </svelte:head>
 
-<div class="mx-auto max-w-xl text-xl md:pb-16">
+<div class="mx-auto max-w-xl md:pb-16">
   {@render children()}
 </div>
 

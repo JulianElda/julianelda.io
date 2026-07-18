@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { HyperlinkProps } from "./hyperlink.types";
 
-  const { asterisk, href, title }: HyperlinkProps = $props();
+  const { asterisk, children, href }: HyperlinkProps = $props();
 </script>
 
 <a
@@ -9,5 +9,5 @@
   {href}
   rel="noreferrer external"
   target="_blank">
-  {title}{asterisk === false ? "" : "*"}
+  {@render children()}{asterisk === false ? "" : "*"}
 </a>

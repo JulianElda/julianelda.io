@@ -1,5 +1,7 @@
 <script>
   import { Card } from "@julianelda/domos";
+
+  import Hyperlink from "$lib/components/hyperlink/hyperlink.svelte";
 </script>
 
 <svelte:head>
@@ -17,7 +19,7 @@
 
 <Card>
 
-<div class="prose dark:prose-invert prose-headings:font-heading mx-auto">
+<div class="prose dark:prose-invert prose-headings:font-heading mx-auto text-xl">
 
 # Julius Polar
 
@@ -27,28 +29,28 @@ web-applications with various technologies.
 
 ## Stuff I made
 
-[meter](https://meter.julianelda.io/)  
+<p><Hyperlink href="https://meter.julianelda.io/">meter</Hyperlink><br />
 Tools and converters.
 Convert various units like time, weight, volume.
-Generate password, guid, lorem ipsum etc.
+Generate password, guid, lorem ipsum etc.</p>
 
-[kairos](https://kairos.julianelda.io/)  
-Shows weather at your current location.
+<p><Hyperlink href="https://kairos.julianelda.io/">kairos</Hyperlink><br />
+Shows weather at your current location.</p>
 
-[Planning Poker](https://poker.julianelda.io/)  
-Online Scrum/Planning poker.
+<p><Hyperlink href="https://poker.julianelda.io/">Planning Poker</Hyperlink><br />
+Online Scrum/Planning poker.</p>
 
-[f4](https://f4.julianelda.io/)  
+<p><Hyperlink href="https://f4.julianelda.io/">f4</Hyperlink><br />
 A theorycrafting tool for Final Fantasy XIV's Black Mage.
-Compare specified rotation to standard rotation. For patch 6.x.
+Compare specified rotation to standard rotation. For patch 6.x.</p>
 
-[This page](https://julianelda.io/)  
-My homepage.
+<p><Hyperlink href="https://julianelda.io/">This page</Hyperlink><br />
+My homepage.</p>
 
 ## Contact
 
-You can contact me via [LinkedIn](https://www.linkedin.com/in/julius-polar/).
-Check out my [GitHub](https://github.com/JulianElda) too.
+You can contact me via <Hyperlink href="https://www.linkedin.com/in/julius-polar/">LinkedIn</Hyperlink>.
+Check out my <Hyperlink href="https://github.com/JulianElda">GitHub</Hyperlink> too.
 
 </div>
 
