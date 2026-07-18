@@ -1,33 +1,21 @@
 <script>
-  import { Card } from "@julianelda/domos";
-
   import Hyperlink from "$lib/components/hyperlink/hyperlink.svelte";
 </script>
 
 <svelte:head>
-  <title>Julius Polar - Front-end developer</title>
+  <title>Julius Polar - Projects</title>
   <meta
-    content="Julius Polar's Homepage"
+    content="Julius Polar - Projects"
     name="description" />
   <meta
-    content="Julius Polar - Front-end developer"
+    content="Julius Polar - Projects"
     property="og:title" />
   <meta
-    content="Julius Polar's Homepage"
+    content="Julius Polar - Projects"
     property="og:description" />
 </svelte:head>
 
-<Card>
-
 <div class="prose dark:prose-invert prose-headings:font-heading mx-auto text-xl">
-
-# Julius Polar
-
-I'm a front-end developer, tech-enthusiast, and gamer. I have
-been working as a developer for over a decade, built many
-web-applications with various technologies.
-
-## Stuff I made
 
 <p><Hyperlink href="https://meter.julianelda.io/">meter</Hyperlink><br />
 Tools and converters.
@@ -47,11 +35,4 @@ Compare specified rotation to standard rotation. For patch 6.x.</p>
 <p><Hyperlink href="https://julianelda.io/">This page</Hyperlink><br />
 My homepage.</p>
 
-## Contact
-
-You can contact me via <Hyperlink href="https://www.linkedin.com/in/julius-polar/">LinkedIn</Hyperlink>.
-Check out my <Hyperlink href="https://github.com/JulianElda">GitHub</Hyperlink> too.
-
 </div>
-
-</Card>

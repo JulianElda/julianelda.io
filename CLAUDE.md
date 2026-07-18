@@ -119,3 +119,12 @@ bun run lint      # oxlint && eslint .
 bun run format    # oxfmt
 bun run test      # test:unit (vitest, --run) then test:e2e (playwright)
 ```
+
+## Agent workflow notes
+
+- Before running `bun run dev`, check whether a dev server is already running (e.g.
+  `ps aux | grep vite`). If Vite reports port 5173 in use and falls back to 5174, that
+  means a server is already up — kill the newly-spawned duplicate and reuse the existing
+  one instead of leaving two instances running.
+- Invoke the `playwright-cli` skill via `bunx playwright-cli ...`, not `npx` — this repo
+  uses Bun as its package manager/runtime.

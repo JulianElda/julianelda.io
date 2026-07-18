@@ -1,0 +1,29 @@
+<script>
+  import GithubMark from "$lib/components/icons/github-mark.svelte";
+  import LinkedinMark from "$lib/components/icons/linkedin-mark.svelte";
+  import Hyperlink from "$lib/components/hyperlink/hyperlink.svelte";
+</script>
+
+<svelte:head>
+  <title>Julius Polar - Contact</title>
+  <meta
+    content="Julius Polar - Contact"
+    name="description" />
+  <meta
+    content="Julius Polar - Contact"
+    property="og:title" />
+  <meta
+    content="Julius Polar - Contact"
+    property="og:description" />
+</svelte:head>
+
+<div class="prose dark:prose-invert prose-headings:font-heading mx-auto flex flex-col gap-2 text-xl">
+  <div class="flex items-center gap-2">
+    <LinkedinMark class="size-6" />
+    <Hyperlink href="https://www.linkedin.com/in/julius-polar/">LinkedIn</Hyperlink>
+  </div>
+  <div class="flex items-center gap-2 text-app-text-light dark:text-app-text-dark">
+    <GithubMark class="size-6" />
+    <Hyperlink href="https://github.com/JulianElda">GitHub</Hyperlink>
+  </div>
+</div>
