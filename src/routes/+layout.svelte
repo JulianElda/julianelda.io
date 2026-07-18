@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import favicon from "$lib/assets/favicon.svg";
+  import Footer from "$lib/components/footer/footer.svelte";
   import { SITE_URL } from "$lib/site.constants";
 
   import "./layout.css";
@@ -27,4 +28,8 @@
 
 <div class="mx-auto max-w-xl text-xl md:pb-16">
   {@render children()}
+</div>
+
+<div class="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-xl">
+  <Footer link="https://github.com/JulianElda/julianelda.io" />
 </div>
