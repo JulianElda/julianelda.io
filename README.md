@@ -1,3 +1,3 @@
-# Homepage
+# julianelda.io
 
-My personal homepage. See it live [here](https://julianelda.io/).
+My homepage

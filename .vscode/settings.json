@@ -1,12 +1,21 @@
 {
-  "editor.formatOnSave": true,
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
+  "chat.useClaudeHooks": true,
   "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
     "source.fixAll.oxc": "explicit",
-    "source.fixAll.eslint": "explicit"
+    "source.format.oxc": "explicit"
   },
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.experimental.useTsgo": true
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "eslint.enable": true,
+  "eslint.validate": ["svelte"],
+  "eslint.runtime": "node",
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.svx": "markdown"
+  },
+  "js/ts.preferences.preferTypeOnlyAutoImports": true,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "prettier.enable": false
 }
