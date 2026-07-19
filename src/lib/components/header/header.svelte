@@ -5,6 +5,7 @@
   const homeHref = resolve("/home");
   const projectsHref = resolve("/projects");
   const contactHref = resolve("/contact");
+  const postsHref = resolve("/posts");
 </script>
 
 <header class="pt-4 pb-6">
@@ -32,5 +33,13 @@
           : "font-semibold",
       ]}
       href={contactHref}>/contact</a>
+    <a
+      class={[
+        "text-primary-900 decoration-dotted hover:text-primary-700 hover:underline dark:text-primary-100 dark:hover:text-primary-300",
+        page.url.pathname === "/posts"
+          ? "font-bold underline"
+          : "font-semibold",
+      ]}
+      href={postsHref}>/posts</a>
   </nav>
 </header>

@@ -1,0 +1,91 @@
+---
+title: My Tech Stack
+slug: my-tech-stack
+description: A rundown of the libraries and tools behind this site.
+date: "2026-07-19"
+draft: false
+---
+
+This site is built with my preferred tech stack — picked for two things: speed, and how well it plays with coding agents.
+
+## Vite Ecosystem
+
+[**Vite**](https://vite.dev/) is the build tool underneath it all — it's fast, requires almost no config, and works with everything.
+
+[**Vitest**](https://vitest.dev/) for unit and component tests.
+
+[**oxlint**](https://oxc.rs/docs/guide/usage/linter.html) for linting and [**oxfmt**](https://oxc.rs/docs/guide/usage/formatter.html) for formatting — both use my own [**@julianelda/lexis**](https://github.com/JulianElda/arche/tree/master/packages/lexis) package, and both are faster than [**ESLint**](https://eslint.org/) and Prettier, which matters for a tighter agent feedback loop. I still keep ESLint around because oxlint doesn't fully support it yet.
+
+## Tooling
+
+[**Bun**](https://bun.com/) is the package manager and runtime. Claude Code runs on Bun, for what it's worth.
+
+[**Storybook**](https://storybook.js.org/) for building and browsing components in isolation.
+
+[**Lefthook**](https://lefthook.dev/) for git hooks — no Node startup per commit like Husky, and hooks run in parallel instead of one after another.
+
+[**nano-staged**](https://github.com/usmanyunusov/nano-staged) auto-lints and auto-formats staged files on pre-commit. Leaner than [**lint-staged**](https://github.com/lint-staged/lint-staged).
+
+```json
+{
+  "**/*.{js,jsx,ts,tsx}": ["oxlint --fix", "oxfmt"],
+  "**/*.{css,html,json,yaml,yml,md}": "oxfmt",
+  "**/*.{svelte}": ["oxlint --fix", "oxfmt"]
+}
+```
+
+[**commitlint**](https://github.com/conventional-changelog/commitlint) enforces conventional commit messages.
+
+## Testing
+
+[**Playwright**](https://playwright.dev/) for end-to-end tests. [**Playwright CLI**](https://github.com/microsoft/playwright-cli) also lets an agent open a browser and see the app directly.
+
+[**@vitest/browser-playwright**](https://vitest.dev/guide/browser/) for running Vitest's browser-mode tests through
+Playwright.
+
+## Styling
+
+[**Tailwind CSS**](https://tailwindcss.com/) for utility-first styling — once you're used to it, you can see a component's styles without jumping through multiple CSS files, and the media query syntax is intuitive enough that you stop thinking about breakpoint variable names.
+
+## Agents
+
+A couple of things for the agents.
+
+**AGENTS.md** covers general code conventions — naming, TypeScript, Svelte, styling,
+testing.
+
+**CLAUDE.md** covers general architecture — project shape, content, API
+structure. I prefer to ask the agent (I use Claude) to scan the repo and have it write the file.
+
+**Claude Code hooks** in **.claude/settings.json** auto-lint and
+auto-format after every tool use, so the produced code always meets the repo's lint
+and formatting standards. It's also cheaper to run a script than to burn
+AI tokens getting an agent to match the style by hand.
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd $(git rev-parse --show-toplevel) && ./node_modules/.bin/nano-staged --unstaged --quiet --bail"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd $(git rev-parse --show-toplevel) && ./node_modules/.bin/nano-staged --unstaged --quiet --bail"
+          }
+        ]
+      }
+    ]
+  }
+}
+```

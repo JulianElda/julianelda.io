@@ -53,6 +53,11 @@ export default defineConfig({
       ],
     }),
   ],
+  server: {
+    fs: {
+      allow: ["content"],
+    },
+  },
   test: {
     expect: { requireAssertions: true },
     projects: [

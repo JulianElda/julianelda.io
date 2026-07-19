@@ -46,14 +46,13 @@ Plain git + MDX. Deliberately no CMS — see Non-goals below.
 
 Every post's frontmatter has exactly these fields:
 
-| Field         | Type       | Notes                                                        |
-| ------------- | ---------- | ------------------------------------------------------------ |
-| `title`       | `string`   |                                                              |
-| `slug`        | `string`   | Should match the `<slug>` folder name under `content/posts/` |
-| `description` | `string`   |                                                              |
-| `date`        | `string`   | Used for sort order on `/posts` (descending)                 |
-| `tags`        | `string[]` |                                                              |
-| `draft`       | `boolean`  | See draft workflow below                                     |
+| Field         | Type      | Notes                                                        |
+| ------------- | --------- | ------------------------------------------------------------ |
+| `title`       | `string`  |                                                              |
+| `slug`        | `string`  | Should match the `<slug>` folder name under `content/posts/` |
+| `description` | `string`  |                                                              |
+| `date`        | `string`  | Used for sort order on `/posts` (descending)                 |
+| `draft`       | `boolean` | See draft workflow below                                     |
 
 Frontmatter is trusted as-is — there is no validation layer parsing or checking it (see
 Non-goals). Keep new fields off this list unless you're deliberately extending the schema.
