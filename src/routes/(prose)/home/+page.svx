@@ -11,9 +11,6 @@
     property="og:description" />
 </svelte:head>
 
-<div class="prose dark:prose-invert prose-headings:font-heading mx-auto text-xl">
-
 Front-end dev by trade, curious person by nature. I spend my days building for the web, and I like staying on top of new tools and tech trends by actually trying them out. Looking forward to getting my job replaced by AI.
 
 <small><em>P.S. this website is vibe coded.</em></small>
-</div>

@@ -15,8 +15,6 @@
     property="og:description" />
 </svelte:head>
 
-<div class="prose dark:prose-invert prose-headings:font-heading mx-auto text-xl">
-
 <p><Hyperlink href="https://meter.julianelda.io/">meter</Hyperlink><br />
 Tools and converters.
 Convert various units like time, weight, volume.
@@ -34,5 +32,3 @@ Compare specified rotation to standard rotation. For patch 6.x.</p>
 
 <p><Hyperlink href="https://julianelda.io/">This page</Hyperlink><br />
 My homepage.</p>
-
-</div>

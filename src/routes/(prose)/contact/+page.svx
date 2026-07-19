@@ -17,7 +17,7 @@
     property="og:description" />
 </svelte:head>
 
-<div class="prose dark:prose-invert prose-headings:font-heading mx-auto flex flex-col gap-2 text-xl">
+<div class="flex flex-col gap-2">
   <div class="flex items-center gap-2">
     <LinkedinMark class="size-6" />
     <Hyperlink href="https://www.linkedin.com/in/julius-polar/">LinkedIn</Hyperlink>
