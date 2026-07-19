@@ -5,7 +5,10 @@
 Personal website and blog for a single author (me). Single public repo, no multi-tenant
 or multi-author concerns anywhere in the design. Hosted on Vercel as the primary domain.
 
-- `/` — homepage
+- `/` — redirects (307) to `/home`
+- `/home` — homepage
+- `/contact` — contact/social links
+- `/projects` — project list
 - `/posts` — blog, paginated list of posts
 - `/posts/[slug]` — individual post
 
@@ -63,7 +66,11 @@ Non-goals). Keep new fields off this list unless you're deliberately extending t
 
 ## Routing conventions
 
-- `src/routes/+page.svelte` — homepage.
+- `src/routes/+page.ts` — redirects (307) to `/home`.
+- `src/routes/(prose)/` — route group for prose/markdown-driven pages (`home`, `contact`,
+  `projects`, and future posts). Its `+layout.svelte` applies the shared `prose` wrapper
+  classes once, so individual pages inside the group don't repeat them. Non-prose routes
+  (e.g. the paginated `/posts` list) stay outside the group.
 - `src/routes/posts/+page.svelte` (+ a load function) — paginated post list, sorted by
   `date` descending. Pagination is a `?page=` query param sliced against an in-memory
   array of posts at build/load time. No pagination library, no DB query — this is
@@ -85,7 +92,13 @@ julianelda.io/
 │   │   └── assets/                # site-wide assets (favicon, etc.)
 │   └── routes/
 │       ├── +layout.svelte
-│       ├── +page.svelte           # homepage
+│       ├── +page.ts               # redirects (307) to /home
+│       ├── layout.css
+│       ├── (prose)/                # shared `prose` wrapper layout
+│       │   ├── +layout.svelte
+│       │   ├── home/+page.svx
+│       │   ├── contact/+page.svx
+│       │   └── projects/+page.svx
 │       └── posts/
 │           ├── +page.svelte       # paginated list (?page=)
 │           └── [slug]/
