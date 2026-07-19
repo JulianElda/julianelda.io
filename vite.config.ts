@@ -1,9 +1,36 @@
+import type { BundledLanguage } from "shiki";
+
 import adapter from "@sveltejs/adapter-vercel";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "@vitest/browser-playwright";
-import { mdsvex } from "mdsvex";
+import { escapeSvelte, mdsvex } from "mdsvex";
+import { createHighlighter } from "shiki";
 import { defineConfig } from "vitest/config";
+
+const highlighterPromise = createHighlighter({
+  langs: [
+    "javascript",
+    "typescript",
+    "jsx",
+    "tsx",
+    "svelte",
+    "bash",
+    "json",
+    "css",
+    "html",
+  ],
+  themes: ["ayu-light", "ayu-mirage"],
+});
+
+async function highlightCode(code: string, lang: null | string | undefined) {
+  const highlighter = await highlighterPromise;
+  const html = highlighter.codeToHtml(code, {
+    lang: (lang || "text") as BundledLanguage,
+    themes: { dark: "ayu-mirage", light: "ayu-light" },
+  });
+  return `{@html \`${escapeSvelte(html)}\`}`;
+}
 
 export default defineConfig({
   plugins: [
@@ -18,7 +45,12 @@ export default defineConfig({
           filename.split(/[/\\]/).includes("node_modules") ? undefined : true,
       },
       extensions: [".svelte", ".svx", ".md"],
-      preprocess: [mdsvex({ extensions: [".svx", ".md"] })],
+      preprocess: [
+        mdsvex({
+          extensions: [".svx", ".md"],
+          highlight: { highlighter: highlightCode },
+        }),
+      ],
     }),
   ],
   test: {
