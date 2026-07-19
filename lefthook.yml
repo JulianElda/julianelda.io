@@ -1,0 +1,11 @@
+no_tty: true
+
+pre-commit:
+  jobs:
+    - name: nano-staged
+      run: ./node_modules/.bin/nano-staged --quiet
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: bunx --no-install commitlint --edit {1}
