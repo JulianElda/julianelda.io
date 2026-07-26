@@ -89,3 +89,7 @@ AI tokens getting an agent to match the style by hand.
   }
 }
 ```
+
+## On the horizon
+
+[**Vite+**](https://viteplus.dev/) would fold oxfmt, oxlint, vite, vitest into a single library. [**Typescript 7.1**](https://github.com/microsoft/typescript-go/milestone/6) is expected to ship programmatic API for Svelte tooling that currently still need Typescript 6.

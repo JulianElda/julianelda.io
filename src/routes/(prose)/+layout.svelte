@@ -2,7 +2,7 @@
   let { children } = $props();
 </script>
 
-<div
+<main
   class="mx-auto prose text-xl dark:prose-invert prose-headings:font-heading">
   {@render children()}
-</div>
+</main>

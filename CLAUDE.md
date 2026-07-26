@@ -44,15 +44,16 @@ Plain git + MDX. Deliberately no CMS — see Non-goals below.
 
 ### Frontmatter schema
 
-Every post's frontmatter has exactly these fields:
+Every post's frontmatter has these fields (all required except `updated`):
 
-| Field         | Type      | Notes                                                        |
-| ------------- | --------- | ------------------------------------------------------------ |
-| `title`       | `string`  |                                                              |
-| `slug`        | `string`  | Should match the `<slug>` folder name under `content/posts/` |
-| `description` | `string`  |                                                              |
-| `date`        | `string`  | Used for sort order on `/posts` (descending)                 |
-| `draft`       | `boolean` | See draft workflow below                                     |
+| Field         | Type                | Notes                                                                                                                                            |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`       | `string`            |                                                                                                                                                  |
+| `slug`        | `string`            | Should match the `<slug>` folder name under `content/posts/`                                                                                     |
+| `description` | `string`            |                                                                                                                                                  |
+| `date`        | `string`            | Used for sort order on `/posts` (descending)                                                                                                     |
+| `draft`       | `boolean`           | See draft workflow below                                                                                                                         |
+| `updated`     | `string` (optional) | Manually set only when a post is substantively revised after publishing. Renders an "Updated" date on the post page when it differs from `date`. |
 
 Frontmatter is trusted as-is — there is no validation layer parsing or checking it (see
 Non-goals). Keep new fields off this list unless you're deliberately extending the schema.
