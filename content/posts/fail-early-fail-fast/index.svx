@@ -1,0 +1,89 @@
+---
+title: Fail early, fail fast
+slug: fail-early-fail-fast
+description: Why catching mistakes earlier makes them cheaper, and the feedback loops, git hooks, and fast tooling that make it automatic — for me and the agents writing my code.
+date: "2026-07-26"
+draft: false
+---
+
+I have a principle I keep coming back to during development: fail early, and fail fast. It's not an opening for a sex joke, I promise.
+
+They sound like the same idea. They're not. Fast is about how quickly you find out something's wrong — a linter that runs on save instead of in CI, three seconds instead of three minutes. Early is about when in the process you find out — a rough prototype that surfaces a bad idea before you've built the whole thing around it.
+
+Both save you the same thing: time spent building on a mistake you hadn't noticed yet. This post is about the tools, habits, and mindset that make both possible — for you, and increasingly, for the agents writing my code.
+
+## Why Do You Want to Fail?
+
+You don't. But at some point, the software will. Ideally, you find the bug, not a paying customer.
+
+That's where failing early comes in. It is better to find an error early during development rather than when it is already released. Failing early also lets you course correct before sinking resources into a failing idea.
+
+The same logic keeps scaling down. Early is measured in days or weeks — dev instead of production. Push that far enough and you get failing fast: minutes instead of days, seconds instead of minutes. Same principle, tighter loop.
+
+## The Feedback Loop Ladder
+
+Not all failures cost the same. The same bug, caught in your editor before the code is pushed, costs you nothing. Caught by a customer after you've shipped, costs you your job.
+
+Line up where a mistake can get caught, ordered by how long it takes to surface:
+
+- **Types, in your editor** — instant. Red squiggle before you've finished the line.
+- **Lint and format, on save** — seconds. You look up and it's already flagged.
+- **Type-check, pre-commit** — tens of seconds. Slower, but still before it leaves your machine.
+- **Full test suite, in CI** — minutes. Enough time to get a coffee.
+- **Production** — hours, days, or never, if nobody's looking. A customer doing QA for your product.
+
+Same bug, five different price tags, depending only on which rung catches it.
+
+The rest of this post is how I actually build it — the tools and habits that turn "should catch this early" into a system.
+
+## "Works on my machine"
+
+The ladder only works if you trust it. If your local environment passes something that CI then fails, you learn to distrust either, or worse, both. That's the trust erosion, and it quietly pushes every check on the ladder down a rung, wasting the entire point of catching things early.
+
+So local has to actually match CI. Same Node version, same lint config, same type-checker, same everything — not "close enough," just the same. If a check passes on your machine, it should mean something.
+
+That extends past tool versions and configs to the whole stack. The goal isn't just "it runs on my machine," it's that it runs the same way on any machine. A setup that only works because of some state you happened to accumulate on your laptop isn't reproducible, it's just lucky — and luck runs out exactly when you're onboarding someone, or coming back after time away, or debugging a "works for me" bug that very much doesn't work for them.
+
+## Automatic Hooks
+
+A check you have to remember to run is a check you'll eventually forget to run.
+
+Lefthook wires checks into git hooks — no separate step, no remembering. nano-staged narrows the on-save and pre-commit checks to just the files you touched, so a save-hook checking your whole repo doesn't turn into its own reason to disable save-hooks.
+
+Not everything belongs at the same hook. A cost-stratified split:
+
+- **On save** — format, lint. Cheap enough to feel free.
+- **Pre-commit** — type-check, unit tests. Slower, still local.
+- **Pre-push / CI** — full test suite. The expensive stuff, run less often.
+
+Resist the temptation to put every check everywhere. The hook only survives at the rung where it hinders you the least.
+
+## Fast Tools
+
+None of this works if the tool itself is slow. The tool needs to run fast so that it does not leave you wanting to turn it off after making you wait a whole minute for a linter check before you make a commit.
+
+That's the actual case for oxlint and oxfmt over ESLint and Prettier: not a stylistic upgrade, a speed one. Fast enough to run on every keystroke without asking you to wait. I still keep ESLint around for a handful of rules oxlint doesn't cover yet — not everything's replaced, just the part that needed to be fast.
+
+## Build the Small Thing First
+
+Everything so far catches a wrong *line* but not the wrong *idea*. You can pass every check and still spend weeks building the wrong feature correctly.
+
+That's a different kind of early. Instead of catching a bug sooner, you're catching a bad idea sooner. The cheapest way to do that is to build the smallest version of the thing before building the whole thing.
+
+That's where prototyping comes in. If the small version of an idea can't work, the big version won't either — so build the small one first and let it prove the idea before you commit. Cheaper to find out an approach is broken after an afternoon than after two weeks.
+
+## "But AI Is Writing My Code Now"
+
+This holds up for coding agents too, not just for humans.
+
+An agent burns through an idea the same way a person does, just faster and with more confidence. The same ladder that saves a person a bad afternoon saves an agent a bad context window. And your company a lot of tokens. It's the same loop a person runs, just automated.
+
+## You Shouldn't Notice
+
+Looking back at the list — types, lint, hooks, tests, prototypes — it sounds like a lot. Like you've traded writing software for maintaining a small bureaucracy that exists to catch a typo.
+
+When integrated correctly, it won't feel like that day to day. You should not stop and think "gotta run the linters before I commit." The lint fix just happens, the moment you save. The hook fires without you deciding to fire it. You don't enforce any of this — it enforces itself.
+
+That's what fast tooling and automation are really buying you. Not less to check, but nothing you have to remember to check. Wire it into something that runs whether or not you're paying attention, and it stops being process and starts being the default.
+
+Fail early, fail fast.
