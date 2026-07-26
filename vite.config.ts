@@ -1,5 +1,6 @@
 import type { BundledLanguage } from "shiki";
 
+import { sentrySvelteKit } from "@sentry/sveltekit";
 import adapter from "@sveltejs/adapter-vercel";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
@@ -34,6 +35,10 @@ async function highlightCode(code: string, lang: null | string | undefined) {
 
 export default defineConfig({
   plugins: [
+    sentrySvelteKit({
+      org: "julianelda",
+      project: "homepage",
+    }),
     tailwindcss(),
     sveltekit({
       adapter: adapter({
@@ -43,6 +48,14 @@ export default defineConfig({
         // Force runes mode for the project, except for libraries. Can be removed in svelte 6.
         runes: ({ filename }) =>
           filename.split(/[/\\]/).includes("node_modules") ? undefined : true,
+      },
+      experimental: {
+        instrumentation: {
+          server: true,
+        },
+        tracing: {
+          server: true,
+        },
       },
       extensions: [".svelte", ".svx", ".md"],
       preprocess: [
