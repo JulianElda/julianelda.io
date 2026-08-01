@@ -89,7 +89,6 @@ julianelda.io/
 │           └── *.{png,jpg,svg,…}  # co-located post images
 ├── src/
 │   ├── lib/
-│   │   └── assets/                # site-wide assets (favicon, etc.)
 │   └── routes/
 │       ├── +layout.svelte
 │       ├── +page.ts               # redirects (307) to /home
@@ -103,7 +102,11 @@ julianelda.io/
 │           ├── +page.svelte       # paginated list (?page=)
 │           └── [slug]/
 │               └── +page.svelte   # individual post
-├── static/
+├── static/                        # served at the site root, unhashed
+│   ├── favicon.ico                # must stay at / — external fetchers
+│   ├── favicon.svg                #   (Vercel, crawlers, unfurlers) look
+│   ├── apple-touch-icon.png       #   there, not in the HTML head
+│   └── robots.txt
 ├── vite.config.ts                 # SvelteKit + mdsvex + Tailwind + Vitest config
 │                                   # (no separate svelte.config.js — mdsvex/adapter
 │                                   #  options live here, on the sveltekit() plugin)
