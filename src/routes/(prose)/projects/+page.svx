@@ -15,20 +15,40 @@
     property="og:description" />
 </svelte:head>
 
-<p><Hyperlink href="https://meter.julianelda.io/">meter</Hyperlink><br />
+<h2 class="text-2xl">
+<Hyperlink href="https://github.com/JulianElda/arche/tree/master/packages/typos">typos</Hyperlink>
+</h2>
+
+Inspired by my problems when trying out <Hyperlink href="https://evilmartians.com/chronicles/stop-writing-rules-in-agents-md-use-agent-hooks-and-nano-staged-instead">this setup from evilmartians</Hyperlink>.
+
+typos is a tool specifically made for Claude Code (or GitHub copilot) PostToolUse hook that lints and formats a single edited file without touching
+git — reusing a repo's existing .nano-staged.json config, safe under concurrent agent calls, and returning failures as blocking feedback so the agent sees the error and self-corrects.
+
+<h2 class="text-2xl">
+<Hyperlink href="https://meter.julianelda.io/">meter</Hyperlink>
+</h2>
+
 Tools and converters.
 Convert various units like time, weight, volume.
-Generate password, guid, lorem ipsum etc.</p>
+Generate password, guid, lorem ipsum etc.
 
-<p><Hyperlink href="https://kairos.julianelda.io/">kairos</Hyperlink><br />
-Shows weather at your current location.</p>
+<h2 class="text-2xl">
+<Hyperlink href="https://kairos.julianelda.io/">kairos</Hyperlink>
+</h2>
 
-<p><Hyperlink href="https://poker.julianelda.io/">Planning Poker</Hyperlink><br />
-Online Scrum/Planning poker.</p>
+Shows weather at your current location.
 
-<p><Hyperlink href="https://f4.julianelda.io/">f4</Hyperlink><br />
+<h2 class="text-2xl">
+<Hyperlink href="https://julianelda.io/">This page</Hyperlink>
+</h2>
+
+My homepage.
+
+<h2 class="text-2xl">
+<Hyperlink href="https://f4.julianelda.io/">f4</Hyperlink>
+</h2>
+
 A theorycrafting tool for Final Fantasy XIV's Black Mage.
-Compare specified rotation to standard rotation. For patch 6.x.</p>
+Compare specified rotation to standard rotation. For patch 6.x.
 
-<p><Hyperlink href="https://julianelda.io/">This page</Hyperlink><br />
-My homepage.</p>
+

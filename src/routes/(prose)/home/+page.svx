@@ -1,3 +1,7 @@
+<script>
+  import Hyperlink from "$lib/components/hyperlink/hyperlink.svelte";
+</script>
+
 <svelte:head>
   <title>Julius Polar - Home</title>
   <meta
@@ -11,6 +15,6 @@
     property="og:description" />
 </svelte:head>
 
-Front-end dev by trade, curious person by nature. I spend my days building for the web, and I like staying on top of new tools and tech trends by actually trying them out. Looking forward to getting my job replaced by AI.
+Front-end dev by trade, curious person by nature. I spend my days building for the web, and I like staying on top of new tools and tech trends by actually trying them out.
 
-<small><em>P.S. this website is vibe coded.</em></small>
+Currently I work at <Hyperlink href="https://www.snke.com/">Snke OS</Hyperlink>. I build my own <Hyperlink href="/projects">projects</Hyperlink> in my free time. Occasionally I write my <Hyperlink href="/posts">thoughts</Hyperlink> about development.
