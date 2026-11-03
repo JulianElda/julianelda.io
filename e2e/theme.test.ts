@@ -45,7 +45,7 @@ test("toggling the theme flips data-theme and updates the cookie", async ({
 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
-  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await page.getByRole("button", { name: "Darkroom theme" }).click();
 
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   const cookies = await context.cookies();
@@ -54,12 +54,28 @@ test("toggling the theme flips data-theme and updates the cookie", async ({
   );
 });
 
+test("the theme corner's pressed state follows the theme", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  const corner = page.getByRole("button", { name: "Darkroom theme" });
+  await expect(corner).toHaveAttribute("aria-pressed", "false");
+  await expect(corner).toHaveAttribute("title", "Turn to the darkroom");
+
+  await corner.click();
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(corner).toHaveAttribute("aria-pressed", "true");
+  await expect(corner).toHaveAttribute("title", "Turn back to paper");
+});
+
 test("theme persists across a reload after toggling", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
-  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await page.getByRole("button", { name: "Darkroom theme" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.reload();

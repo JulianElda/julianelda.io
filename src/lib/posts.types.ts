@@ -11,3 +11,8 @@ export interface PostFrontmatter {
    */
   updated?: string;
 }
+
+export interface PostYearGroup {
+  posts: PostFrontmatter[];
+  year: string;
+}

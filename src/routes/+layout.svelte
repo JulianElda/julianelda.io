@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import Footer from "$lib/components/footer/footer.svelte";
-  import Header from "$lib/components/header/header.svelte";
+  import SiteHeader from "$lib/components/site-header/site-header.svelte";
+  import ThemeCorner from "$lib/components/theme-corner/theme-corner.svelte";
   import { SITE_URL } from "$lib/site.constants";
 
   import "./layout.css";
@@ -34,11 +34,9 @@
     property="og:url" />
 </svelte:head>
 
-<div class="mx-auto max-w-xl md:pb-16">
-  <Header />
+<ThemeCorner />
+<SiteHeader />
+<div
+  class="mx-auto max-w-[720px] px-5 pt-[calc(clamp(56px,10vh,112px)-16px)] pb-14">
   {@render children()}
-</div>
-
-<div class="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-xl">
-  <Footer link="https://github.com/JulianElda/julianelda.io" />
 </div>

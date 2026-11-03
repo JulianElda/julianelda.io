@@ -6,10 +6,10 @@ Personal website and blog for a single author (me). Single public repo, no multi
 or multi-author concerns anywhere in the design. Hosted on Vercel as the primary domain.
 
 - `/` — redirects (307) to `/home`
-- `/home` — homepage
-- `/contact` — contact/social links
+- `/home` — homepage (About: intro, Currently, Recent writings, Contact)
+- `/contact` — redirects (308) to `/home`; contact links live on the homepage
 - `/projects` — project list
-- `/posts` — blog, paginated list of posts
+- `/posts` — blog ("Writing"), all posts grouped by year
 - `/posts/[slug]` — individual post
 
 There is no backend service, no user accounts, and no runtime database. Every request is
@@ -20,8 +20,13 @@ repo. Publishing a post is a git push, not an API call.
 
 - **SvelteKit** + **TypeScript**
 - **Bun** — package manager and runtime
-- **Tailwind CSS v4** + `@tailwindcss/typography` — styling, prose formatting for post
-  content
+- **Tailwind CSS v4** — styling. Colours and fonts are bespoke tokens in
+  `src/routes/layout.css` (`--ink-*` light "stationery" theme, `--film-*` dark "darkroom"
+  theme), exposed through semantic variables (`--paper`, `--text`, `--note`, `--muted`,
+  `--accent`, …) and an `@theme inline` block as utilities (`bg-paper`, `text-note`, …).
+  Post bodies are styled by the custom `.post-body` rules there, not a typography plugin.
+- **Fonts** — Heliotrope 3 (body, `font-body`) and Heliotrope 4 (headings, `font-display`),
+  licensed from MB Type; IBM Plex Mono (`font-mono`) via `@fontsource/ibm-plex-mono`
 - **mdsvex** — markdown/MDX (`.svx`) processing for posts
 - **shiki** — code syntax highlighting, wired into mdsvex's `highlight` option (not
   mdsvex's default Prism highlighter)
@@ -67,16 +72,18 @@ Non-goals). Keep new fields off this list unless you're deliberately extending t
 ## Routing conventions
 
 - `src/routes/+page.ts` — redirects (307) to `/home`.
-- `src/routes/(prose)/` — route group for prose/markdown-driven pages (`home`, `contact`,
-  `projects`, and future posts). Its `+layout.svelte` applies the shared `prose` wrapper
-  classes once, so individual pages inside the group don't repeat them. Non-prose routes
-  (e.g. the paginated `/posts` list) stay outside the group.
-- `src/routes/posts/+page.svelte` (+ a load function) — paginated post list, sorted by
-  `date` descending. Pagination is a `?page=` query param sliced against an in-memory
-  array of posts at build/load time. No pagination library, no DB query — this is
+- `src/routes/+layout.svelte` — renders the theme corner (`theme-corner`), the sticky
+  header (`site-header`) and a 680px content column for every page. No footer.
+- `src/routes/home/` — About page; its server load takes the 3 latest posts from
+  `getPosts()`.
+- `src/routes/contact/+page.ts` — redirects (308) to `/home`.
+- `src/routes/posts/+page.svelte` (+ a load function) — every post, grouped by year with
+  `groupPostsByYear()` (`src/lib/posts.utils.ts`), newest first. No pagination — this is
   intentionally the simplest thing that works at personal-blog scale.
 - `src/routes/posts/[slug]/+page.svelte` — individual post, statically generated from
-  `content/posts/<slug>/index.svx`.
+  `content/posts/<slug>/index.svx`. The load also imports the raw source to compute
+  reading time (`getReadingMinutes()`, 200 words per minute).
+- `src/routes/projects/+page.svelte` — project cards from `src/lib/projects.constants.ts`.
 
 ## File structure
 
@@ -89,19 +96,22 @@ julianelda.io/
 │           └── *.{png,jpg,svg,…}  # co-located post images
 ├── src/
 │   ├── lib/
+│   │   ├── components/            # site-header, theme-corner, section-heading,
+│   │   │                          #   leader-row, project-card
+│   │   └── fonts/                 # Heliotrope woff2, gitignored (see Fonts)
 │   └── routes/
 │       ├── +layout.svelte
 │       ├── +page.ts               # redirects (307) to /home
-│       ├── layout.css
-│       ├── (prose)/                # shared `prose` wrapper layout
-│       │   ├── +layout.svelte
-│       │   ├── home/+page.svx
-│       │   ├── contact/+page.svx
-│       │   └── projects/+page.svx
+│       ├── layout.css             # tokens, @font-face, .marker, .post-body
+│       ├── home/                  # About page
+│       ├── contact/+page.ts       # redirects (308) to /home
+│       ├── projects/+page.svelte
 │       └── posts/
-│           ├── +page.svelte       # paginated list (?page=)
+│           ├── +page.svelte       # all posts, grouped by year
 │           └── [slug]/
 │               └── +page.svelte   # individual post
+├── scripts/
+│   └── fetch-fonts.ts             # fills src/lib/fonts/ before dev/build
 ├── static/                        # served at the site root, unhashed
 │   ├── favicon.ico                # must stay at / — external fetchers
 │   ├── favicon.svg                #   (Vercel, crawlers, unfurlers) look
@@ -113,6 +123,21 @@ julianelda.io/
 ├── AGENTS.md                      # coding conventions
 └── CLAUDE.md                      # this file
 ```
+
+## Fonts
+
+Heliotrope is licensed from MB Type, and the licence forbids storing the font files
+anywhere non-licensees can reach. This repo is public, so **never commit them**.
+`src/lib/fonts/` is gitignored and filled by `scripts/fetch-fonts.ts`, which runs before
+`dev` and `build`:
+
+- Locally, copy the eight `heliotrope_{3,4}_{regular,italic,bold,bold_italic}.woff2` files
+  into `src/lib/fonts/` once from the licensed download; the script then exits without a
+  network call.
+- On Vercel (or anywhere the files are missing), set `FONTS_TOKEN` to a fine-grained token
+  with read-only Contents access to the private `JulianElda/fonts` repo; the script
+  downloads them from its `heliotrope/` folder.
+- With neither, `dev` and `build` fail with a message naming the missing files.
 
 ## Non-goals
 
