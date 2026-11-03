@@ -20,9 +20,7 @@
     <a
       aria-current={isHome ? "page" : undefined}
       class={[linkClass, "font-display text-[26px] leading-[1.1]"]}
-      href={resolve("/home")}>
-      <span class={{ marker: isHome }}>Julius Polar</span>
-    </a>
+      href={resolve("/home")}>Julius Polar</a>
     <nav
       aria-label="Sections"
       class="flex flex-wrap gap-x-[clamp(16px,4vw,28px)] text-[20px]">
