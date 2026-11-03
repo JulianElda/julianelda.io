@@ -38,7 +38,7 @@
   </p>
   <p class="mb-16">
     I build my own projects in my free time, and occasionally I write down my
-    thoughts about development. They end up on the pages that follow.
+    thoughts about development.
   </p>
 
   <SectionHeading

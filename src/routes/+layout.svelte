@@ -34,8 +34,9 @@
     property="og:url" />
 </svelte:head>
 
-<!-- Chalk filters, at the design's wear of 50: #chalk wears the edges of
-     headings (.chalk), #smear grains the blackboard's nav highlighter. -->
+<!-- Chalk filters: #chalk wears the edges of headings (.chalk) at a wear of
+     40, a touch lighter than the design's 50; #smear grains the blackboard's
+     nav highlighter at the design's 50. -->
 <svg
   aria-hidden="true"
   class="absolute size-0 overflow-hidden">
@@ -56,14 +57,14 @@
       in="SourceGraphic"
       in2="noise"
       result="rough"
-      scale="1.1"
+      scale="0.88"
       xChannelSelector="R"
       yChannelSelector="G" />
     <feColorMatrix
       in="noise"
       result="mask"
       type="matrix"
-      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.6" />
+      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.36" />
     <feComposite
       in="rough"
       in2="mask"
@@ -119,6 +120,6 @@
 <ThemeCorner />
 <SiteHeader />
 <div
-  class="mx-auto max-w-[720px] px-5 pt-[calc(clamp(56px,10vh,112px)-16px)] pb-14">
+  class="mx-auto max-w-[720px] px-5 pt-[calc((clamp(56px,10vh,112px)-16px)/2)] pb-14">
   {@render children()}
 </div>

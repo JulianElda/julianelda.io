@@ -19,7 +19,7 @@
     class="mx-auto flex max-w-[680px] flex-wrap items-baseline justify-between gap-x-6">
     <a
       aria-current={isHome ? "page" : undefined}
-      class={[linkClass, "chalk font-display text-[26px] leading-[1.1]"]}
+      class={[linkClass, "font-display text-[26px] leading-[1.1]"]}
       href={resolve("/home")}>Julius Polar</a>
     <nav
       aria-label="Sections"
