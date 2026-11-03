@@ -1,13 +1,13 @@
 // Heliotrope is licensed from MB Type and may not be stored in a public
 // repository, so src/lib/fonts/ is gitignored. Locally the files are copied in
 // once from the licensed download; CI and Vercel fetch them from the private
-// JulianElda/fonts repo with a read-only FONTS_TOKEN.
+// JulianElda/heliotrope repo with a read-only FONTS_TOKEN.
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const FONTS_DIR = path.resolve(import.meta.dirname, "../src/lib/fonts");
 const FONTS_REPO_URL =
-  "https://api.github.com/repos/JulianElda/fonts/contents/heliotrope";
+  "https://api.github.com/repos/JulianElda/heliotrope/contents";
 const FONT_FILES = [
   "heliotrope_3_regular.woff2",
   "heliotrope_3_italic.woff2",
@@ -46,7 +46,7 @@ if (missing.length > 0) {
       [
         `Missing Heliotrope fonts in src/lib/fonts/: ${missing.join(", ")}`,
         "Either copy them in from the licensed MB Type download,",
-        "or set FONTS_TOKEN to fetch them from JulianElda/fonts.",
+        "or set FONTS_TOKEN to fetch them from JulianElda/heliotrope.",
       ].join("\n"),
     );
     process.exit(1);

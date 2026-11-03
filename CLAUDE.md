@@ -135,8 +135,8 @@ anywhere non-licensees can reach. This repo is public, so **never commit them**.
   into `src/lib/fonts/` once from the licensed download; the script then exits without a
   network call.
 - On Vercel (or anywhere the files are missing), set `FONTS_TOKEN` to a fine-grained token
-  with read-only Contents access to the private `JulianElda/fonts` repo; the script
-  downloads them from its `heliotrope/` folder.
+  with read-only Contents access to the private `JulianElda/heliotrope` repo; the
+  script downloads them from its root.
 - With neither, `dev` and `build` fail with a message naming the missing files.
 
 ## Non-goals
