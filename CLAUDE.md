@@ -169,3 +169,10 @@ bun run test      # test:unit (vitest, --run) then test:e2e (playwright)
   one instead of leaving two instances running.
 - Invoke the `playwright-cli` skill via `bunx playwright-cli ...`, not `npx` — this repo
   uses Bun as its package manager/runtime.
+- `flake.nix` (loaded by direnv via `.envrc`) provides bun, node and the Playwright
+  browsers: on NixOS the browsers Playwright downloads itself cannot run. Those browsers
+  only work with the npm Playwright of the same version, so `playwright` and
+  `@playwright/test` are pinned exactly to the flake's `playwright-driver`, and
+  `overrides` in `package.json` forces `@playwright/cli` onto that same `playwright-core`
+  instead of its bundled alpha. After `nix flake update`, the shell prints the
+  `bun add` line that re-pins them; update the `overrides` to match.

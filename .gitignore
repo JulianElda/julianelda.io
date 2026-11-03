@@ -30,3 +30,6 @@ test-results
 
 # Licensed fonts (MB Type): never commit, see scripts/fetch-fonts.ts
 src/lib/fonts/
+
+# direnv's cached dev shell; also the nix-direnv GC root.
+/.direnv/
