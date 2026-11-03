@@ -21,10 +21,12 @@ repo. Publishing a post is a git push, not an API call.
 - **SvelteKit** + **TypeScript**
 - **Bun** — package manager and runtime
 - **Tailwind CSS v4** — styling. Colours and fonts are bespoke tokens in
-  `src/routes/layout.css` (`--ink-*` light "stationery" theme, `--film-*` dark "darkroom"
+  `src/routes/layout.css` (`--ink-*` light "stationery" theme, `--chalk-*` dark "blackboard"
   theme), exposed through semantic variables (`--paper`, `--text`, `--note`, `--muted`,
   `--accent`, …) and an `@theme inline` block as utilities (`bg-paper`, `text-note`, …).
   Post bodies are styled by the custom `.post-body` rules there, not a typography plugin.
+  Headings get chalk wear (`.chalk`) and the blackboard's nav highlighter a smear, from
+  the SVG filters `#chalk` and `#smear` rendered once in `src/routes/+layout.svelte`.
 - **Fonts** — Heliotrope 3 (body, `font-body`) and Heliotrope 4 (headings, `font-display`),
   licensed from MB Type; IBM Plex Mono (`font-mono`) via `@fontsource/ibm-plex-mono`
 - **mdsvex** — markdown/MDX (`.svx`) processing for posts
@@ -72,7 +74,7 @@ Non-goals). Keep new fields off this list unless you're deliberately extending t
 ## Routing conventions
 
 - `src/routes/+page.ts` — redirects (307) to `/home`.
-- `src/routes/+layout.svelte` — renders the theme corner (`theme-corner`), the sticky
+- `src/routes/+layout.svelte` — renders the chalk filters, the theme corner (`theme-corner`), the sticky
   header (`site-header`) and a 680px content column for every page. No footer.
 - `src/routes/home/` — About page; its server load takes the 3 latest posts from
   `getPosts()`.

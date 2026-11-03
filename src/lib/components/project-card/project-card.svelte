@@ -17,7 +17,7 @@
     <span
       aria-hidden="true"
       class="h-[1.5px] flex-[0_0_14px] bg-strong"></span>
-    <h2 class="px-2.5 text-[26px] leading-[34px] text-accent">
+    <h2 class="chalk px-2.5 text-[26px] leading-[34px] text-accent">
       {project.name}
     </h2>
     <span

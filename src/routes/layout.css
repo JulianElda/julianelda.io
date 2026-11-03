@@ -93,22 +93,24 @@
   --ink-paper-manila: #f2e7cb;
   --ink-flap: #e3e1d9;
 
-  /* dark theme: film photography */
-  --film-paper: #141210;
-  --film-dot: rgba(237, 230, 218, 0.1);
-  --film-rule: rgba(237, 230, 218, 0.22);
-  --film-rule-soft: rgba(237, 230, 218, 0.18);
-  --film-code-bg: rgba(237, 230, 218, 0.05);
-  --film-white: #ede6da;
-  --film-soft-white: #cfc8bc;
-  --film-teal: #7fc1c8;
-  --film-fixer: #a39c92;
-  --film-safelight: #e8776b;
-  --film-marker: rgba(155, 227, 236, 0.32);
-  --film-print: #f3f1eb;
-  --film-print-caption: #3a3833;
-  --film-print-meta: #66645e;
-  --film-flap: #2b2723;
+  /* dark theme: blackboard */
+  --chalk-board: #1f2224;
+  --chalk-dot: rgba(233, 231, 224, 0.12);
+  --chalk-rule: rgba(233, 231, 224, 0.28);
+  --chalk-rule-soft: rgba(233, 231, 224, 0.2);
+  --chalk-code-bg: rgba(233, 231, 224, 0.05);
+  --chalk-white: #e9e7e0;
+  --chalk-soft-white: #d2d3cf;
+  --chalk-blue: #9fcbe0;
+  --chalk-grey: #a9b0a8;
+  --chalk-coral: #f2a99b;
+  --chalk-yellow: #eadb8c;
+  --chalk-marker: rgba(155, 227, 236, 0.38);
+  --chalk-print: #f3f1eb;
+  --chalk-print-caption: #3a3833;
+  --chalk-print-meta: #66645e;
+  --chalk-flap: #313436;
+  --chalk-fold: rgba(233, 231, 224, 0.24);
 
   /* shared */
   --overlay: rgba(12, 12, 14, 0.82);
@@ -116,7 +118,7 @@
 
   /* semantic, light */
   --paper: var(--ink-paper);
-  --paper-other: var(--film-paper);
+  --paper-other: var(--chalk-board);
   --dot: var(--ink-dot);
   --rule: var(--ink-rule);
   --rule-soft: var(--ink-rule-soft);
@@ -128,22 +130,24 @@
   --accent: var(--ink-red);
   --marker: var(--ink-marker);
   --flap: var(--ink-flap);
+  --fold: var(--ink-rule);
 }
 
 [data-theme="dark"] {
-  --paper: var(--film-paper);
+  --paper: var(--chalk-board);
   --paper-other: var(--ink-paper);
-  --dot: var(--film-dot);
-  --rule: var(--film-rule);
-  --rule-soft: var(--film-rule-soft);
-  --code-bg: var(--film-code-bg);
-  --text: var(--film-white);
-  --strong: var(--film-soft-white);
-  --note: var(--film-teal);
-  --muted: var(--film-fixer);
-  --accent: var(--film-safelight);
-  --marker: var(--film-marker);
-  --flap: var(--film-flap);
+  --dot: var(--chalk-dot);
+  --rule: var(--chalk-rule);
+  --rule-soft: var(--chalk-rule-soft);
+  --code-bg: var(--chalk-code-bg);
+  --text: var(--chalk-white);
+  --strong: var(--chalk-soft-white);
+  --note: var(--chalk-blue);
+  --muted: var(--chalk-grey);
+  --accent: var(--chalk-coral);
+  --marker: var(--chalk-marker);
+  --flap: var(--chalk-flap);
+  --fold: var(--chalk-fold);
 }
 
 @theme inline {
@@ -160,6 +164,7 @@
   --color-accent: var(--accent);
   --color-marker: var(--marker);
   --color-flap: var(--flap);
+  --color-fold: var(--fold);
 
   --font-body: "Heliotrope 3", Georgia, serif;
   --font-display: "Heliotrope 4", Georgia, serif;
@@ -185,6 +190,36 @@
     background-size: 32px 32px;
     font-size: 20px;
     line-height: 32px;
+  }
+  /* The blackboard keeps three faint eraser smudges under its chalk grid. */
+  [data-theme="dark"] body {
+    background-image:
+      radial-gradient(circle, var(--dot) 1.1px, transparent 1.6px),
+      radial-gradient(
+        ellipse 55% 22% at 28% 36%,
+        rgba(255, 255, 255, 0.018),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 18% at 72% 70%,
+        rgba(255, 255, 255, 0.015),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 70% 14% at 50% 92%,
+        rgba(255, 255, 255, 0.012),
+        transparent 70%
+      );
+    background-position:
+      16px 16px,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      32px 32px,
+      100% 100%,
+      100% 100%,
+      100% 100%;
   }
 
   h1,
@@ -223,6 +258,7 @@
   }
   .post-body h2 {
     color: var(--accent);
+    filter: url(#chalk);
     font-size: 26px;
     line-height: 1.25;
     margin: 24px 0 16px;
@@ -288,7 +324,14 @@
 }
 
 @layer components {
+  /* The highlighter sits on its own layer so the blackboard's smear filter
+     roughens the stroke without touching the text over it. */
   .marker {
+    display: inline-block;
+    isolation: isolate;
+    position: relative;
+  }
+  .marker::before {
     background: linear-gradient(
       176deg,
       transparent 34%,
@@ -296,7 +339,113 @@
       var(--marker) 86%,
       transparent 88%
     );
-    margin: 0 -4px;
-    padding: 0 4px;
+    content: "";
+    inset: 0 -4px;
+    position: absolute;
+    z-index: -1;
+  }
+  [data-theme="dark"] .marker::before {
+    filter: url(#smear);
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 14%,
+      #000 80%,
+      transparent
+    );
+  }
+
+  /* Chalk wear: the #chalk filter in +layout.svelte eats into the letterforms. */
+  .chalk {
+    filter: url(#chalk);
+  }
+
+  /* The page-corner theme toggle. Hover and focus roll the flap up around the
+     fold; a click sets data-turning, which sweeps the corner across the whole
+     viewport before theme-corner.svelte flips the theme, then data-settle
+     drops every transition so the corner snaps back on the new theme. */
+  .theme-corner {
+    --corner-ease: cubic-bezier(0.25, 0.8, 0.3, 1);
+    height: 48px;
+    perspective: 220px;
+    transition:
+      width 440ms var(--corner-ease),
+      height 440ms var(--corner-ease);
+    width: 48px;
+  }
+  .theme-corner-icon {
+    opacity: 0.45;
+    transform: scale(0.92);
+    transition:
+      opacity 440ms var(--corner-ease),
+      transform 440ms var(--corner-ease);
+  }
+  .theme-corner-shadow {
+    opacity: 0.12;
+    transform: translate(-1px, 2px);
+    transition:
+      opacity 440ms var(--corner-ease),
+      transform 440ms var(--corner-ease);
+  }
+  .theme-corner-flap {
+    background: linear-gradient(
+      to top right,
+      color-mix(in srgb, var(--flap) 90%, #000) 0%,
+      var(--flap) 30%,
+      color-mix(in srgb, var(--flap) 88%, #fff) 50%
+    );
+    /* Turning about the diagonal lifts the tip off the page toward the viewer. */
+    transform: rotate3d(1, 1, 0, 0deg);
+    transition: transform 440ms var(--corner-ease);
+  }
+
+  .theme-corner:is(:hover, :focus-visible):not([data-turning]) {
+    height: 80px;
+    width: 80px;
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-shadow,
+  .theme-corner[data-turning] .theme-corner-shadow {
+    opacity: 0.18;
+    transform: translate(-4px, 6px);
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-flap {
+    transform: rotate3d(1, 1, 0, 42deg);
+  }
+
+  /* 100vw + 100vh puts the diagonal through the viewport's bottom-left
+     corner, so the other theme's paper covers the whole screen. */
+  .theme-corner[data-turning] {
+    height: calc(100vw + 100vh);
+    transition:
+      width 560ms cubic-bezier(0.65, 0, 0.35, 1),
+      height 560ms cubic-bezier(0.65, 0, 0.35, 1);
+    width: calc(100vw + 100vh);
+  }
+  .theme-corner[data-turning] .theme-corner-icon {
+    opacity: 0;
+  }
+  .theme-corner[data-turning] .theme-corner-shadow,
+  .theme-corner[data-turning] .theme-corner-flap {
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  .theme-corner[data-settle],
+  .theme-corner[data-settle] * {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-corner,
+    .theme-corner * {
+      transition: none;
+    }
   }
 }

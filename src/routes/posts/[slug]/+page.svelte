@@ -37,7 +37,7 @@
       · Updated <time datetime={updated}>{formatDate(updated)}</time>
     {/if}
   </p>
-  <h1 class="mb-4 text-[clamp(36px,7vw,48px)] leading-[1.1]">
+  <h1 class="chalk mb-4 text-[clamp(36px,7vw,48px)] leading-[1.1]">
     {data.metadata.title}
   </h1>
   <p class="mb-12 text-muted italic">{data.metadata.description}</p>
