@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import Footer from "$lib/components/footer/footer.svelte";
-  import Header from "$lib/components/header/header.svelte";
+  import SiteHeader from "$lib/components/site-header/site-header.svelte";
+  import ThemeCorner from "$lib/components/theme-corner/theme-corner.svelte";
   import { SITE_URL } from "$lib/site.constants";
 
   import "./layout.css";
@@ -34,11 +34,92 @@
     property="og:url" />
 </svelte:head>
 
-<div class="mx-auto max-w-xl md:pb-16">
-  <Header />
+<!-- Chalk filters: #chalk wears the edges of headings (.chalk) at a wear of
+     40, a touch lighter than the design's 50; #smear grains the blackboard's
+     nav highlighter at the design's 50. -->
+<svg
+  aria-hidden="true"
+  class="absolute size-0 overflow-hidden">
+  <filter
+    id="chalk"
+    color-interpolation-filters="sRGB"
+    height="120%"
+    width="108%"
+    x="-4%"
+    y="-10%">
+    <feTurbulence
+      baseFrequency="1.15"
+      numOctaves="2"
+      result="noise"
+      seed="7"
+      type="fractalNoise" />
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="noise"
+      result="rough"
+      scale="0.88"
+      xChannelSelector="R"
+      yChannelSelector="G" />
+    <feColorMatrix
+      in="noise"
+      result="mask"
+      type="matrix"
+      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.36" />
+    <feComposite
+      in="rough"
+      in2="mask"
+      operator="in" />
+  </filter>
+  <filter
+    id="smear"
+    color-interpolation-filters="sRGB"
+    height="140%"
+    width="104%"
+    x="-2%"
+    y="-20%">
+    <feTurbulence
+      baseFrequency="0.85"
+      numOctaves="2"
+      result="grain"
+      seed="3"
+      type="fractalNoise" />
+    <feTurbulence
+      baseFrequency="0.015 0.45"
+      numOctaves="2"
+      result="streak"
+      seed="11"
+      type="fractalNoise" />
+    <feColorMatrix
+      in="grain"
+      result="g"
+      type="matrix"
+      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  5 0 0 0 -2" />
+    <feColorMatrix
+      in="streak"
+      result="s"
+      type="matrix"
+      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -0.8" />
+    <feComposite
+      in="g"
+      in2="s"
+      operator="in"
+      result="m" />
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="grain"
+      result="rough"
+      scale="3"
+      xChannelSelector="R"
+      yChannelSelector="G" />
+    <feComposite
+      in="rough"
+      in2="m"
+      operator="in" />
+  </filter>
+</svg>
+<ThemeCorner />
+<SiteHeader />
+<div
+  class="mx-auto max-w-[720px] px-5 pt-[calc((clamp(56px,10vh,112px)-16px)/2)] pb-14">
   {@render children()}
-</div>
-
-<div class="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-xl">
-  <Footer link="https://github.com/JulianElda/julianelda.io" />
 </div>

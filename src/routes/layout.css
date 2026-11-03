@@ -1,13 +1,175 @@
 @import "tailwindcss";
-@import "@julianelda/chroma";
-@import "@julianelda/stilo";
-@import "@julianelda/domos/tailwind";
-@import "@julianelda/domos/background";
-
-@plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";
+@import "@fontsource/ibm-plex-mono/400.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Heliotrope is licensed and gitignored; scripts/fetch-fonts.ts fills src/lib/fonts/. */
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 3";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../lib/fonts/heliotrope_3_regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 3";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../lib/fonts/heliotrope_3_italic.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 3";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../lib/fonts/heliotrope_3_bold.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 3";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../lib/fonts/heliotrope_3_bold_italic.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 4";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../lib/fonts/heliotrope_4_regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 4";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../lib/fonts/heliotrope_4_italic.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 4";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../lib/fonts/heliotrope_4_bold.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Heliotrope 4";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../lib/fonts/heliotrope_4_bold_italic.woff2") format("woff2");
+}
+
+:root {
+  /* light theme: stationery */
+  --ink-paper: #f6f6f2;
+  --ink-dot: rgba(29, 28, 26, 0.2);
+  --ink-rule: rgba(29, 28, 26, 0.3);
+  --ink-rule-soft: rgba(29, 28, 26, 0.18);
+  --ink-code-bg: rgba(29, 28, 26, 0.035);
+  --ink-black: #222222;
+  --ink-blue-black: #2f3548;
+  --ink-blue: #455399;
+  --ink-pencil: #5f5e5b;
+  --ink-red: #e2231a;
+  --ink-marker: rgba(155, 227, 236, 0.85);
+  --ink-marker-yellow: rgba(255, 228, 92, 0.85);
+  --ink-marker-lavender: rgba(199, 178, 240, 0.85);
+  --ink-marker-green: rgba(168, 230, 161, 0.85);
+  --ink-marker-pink: rgba(247, 177, 207, 0.85);
+  --ink-print: #ffffff;
+  --ink-print-caption: #3a3833;
+  --ink-print-meta: #66645e;
+  --ink-paper-white: #ffffff;
+  --ink-paper-off-white: #fdfcf9;
+  --ink-paper-soft-white: #fbf9f4;
+  --ink-paper-warm-white: #f8f6ef;
+  --ink-paper-warm: #f6f3ea;
+  --ink-paper-cool-white: #f6f6f2;
+  --ink-paper-ivory: #f5f0e1;
+  --ink-paper-cream: #f2ebd8;
+  --ink-paper-recycled: #eeede7;
+  --ink-paper-manila: #f2e7cb;
+  --ink-flap: #e3e1d9;
+
+  /* dark theme: blackboard */
+  --chalk-board: #1f2224;
+  --chalk-dot: rgba(233, 231, 224, 0.12);
+  --chalk-rule: rgba(233, 231, 224, 0.28);
+  --chalk-rule-soft: rgba(233, 231, 224, 0.2);
+  --chalk-code-bg: rgba(233, 231, 224, 0.05);
+  --chalk-white: #e9e7e0;
+  --chalk-soft-white: #d2d3cf;
+  --chalk-blue: #9fcbe0;
+  --chalk-grey: #a9b0a8;
+  --chalk-coral: #f2a99b;
+  --chalk-yellow: #eadb8c;
+  --chalk-marker: rgba(155, 227, 236, 0.38);
+  --chalk-print: #f3f1eb;
+  --chalk-print-caption: #3a3833;
+  --chalk-print-meta: #66645e;
+  --chalk-flap: #313436;
+  --chalk-fold: rgba(233, 231, 224, 0.24);
+
+  /* shared */
+  --overlay: rgba(12, 12, 14, 0.82);
+  --overlay-button: rgba(255, 255, 255, 0.14);
+
+  /* semantic, light */
+  --paper: var(--ink-paper);
+  --paper-other: var(--chalk-board);
+  --dot: var(--ink-dot);
+  --rule: var(--ink-rule);
+  --rule-soft: var(--ink-rule-soft);
+  --code-bg: var(--ink-code-bg);
+  --text: var(--ink-black);
+  --strong: var(--ink-blue-black);
+  --note: var(--ink-blue);
+  --muted: var(--ink-pencil);
+  --accent: var(--ink-red);
+  --marker: var(--ink-marker);
+  --flap: var(--ink-flap);
+  --fold: var(--ink-rule);
+}
+
+[data-theme="dark"] {
+  --paper: var(--chalk-board);
+  --paper-other: var(--ink-paper);
+  --dot: var(--chalk-dot);
+  --rule: var(--chalk-rule);
+  --rule-soft: var(--chalk-rule-soft);
+  --code-bg: var(--chalk-code-bg);
+  --text: var(--chalk-white);
+  --strong: var(--chalk-soft-white);
+  --note: var(--chalk-blue);
+  --muted: var(--chalk-grey);
+  --accent: var(--chalk-coral);
+  --marker: var(--chalk-marker);
+  --flap: var(--chalk-flap);
+  --fold: var(--chalk-fold);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-other: var(--paper-other);
+  --color-dot: var(--dot);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-code-bg: var(--code-bg);
+  --color-text: var(--text);
+  --color-strong: var(--strong);
+  --color-note: var(--note);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-marker: var(--marker);
+  --color-flap: var(--flap);
+  --color-fold: var(--fold);
+
+  --font-body: "Heliotrope 3", Georgia, serif;
+  --font-display: "Heliotrope 4", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
 
 @layer base {
   html {
@@ -17,16 +179,65 @@
     color-scheme: dark;
   }
 
+  body {
+    background-color: var(--paper);
+    background-image: radial-gradient(
+      circle,
+      var(--dot) 1.1px,
+      transparent 1.6px
+    );
+    background-position: 16px 16px;
+    background-size: 32px 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+  /* The blackboard keeps three faint eraser smudges under its chalk grid. */
+  [data-theme="dark"] body {
+    background-image:
+      radial-gradient(circle, var(--dot) 1.1px, transparent 1.6px),
+      radial-gradient(
+        ellipse 55% 22% at 28% 36%,
+        rgba(255, 255, 255, 0.018),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 18% at 72% 70%,
+        rgba(255, 255, 255, 0.015),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 70% 14% at 50% 92%,
+        rgba(255, 255, 255, 0.012),
+        transparent 70%
+      );
+    background-position:
+      16px 16px,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      32px 32px,
+      100% 100%,
+      100% 100%,
+      100% 100%;
+  }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
+    font-family: var(--font-display);
     text-wrap: balance;
   }
   p {
     text-wrap: pretty;
+  }
+
+  button:focus-visible {
+    outline: 2px dotted currentColor;
+    outline-offset: 3px;
   }
 
   [data-theme="dark"] .shiki,
@@ -38,5 +249,212 @@
   }
   [data-theme="dark"] .shiki {
     background-color: var(--shiki-dark-bg) !important;
+  }
+
+  /* Post bodies: kept in the base layer so the code-block background below
+     outranks the dark Shiki override above by specificity. */
+  .post-body p {
+    margin: 0 0 24px;
+  }
+  .post-body h2 {
+    color: var(--accent);
+    filter: url(#chalk);
+    font-size: 26px;
+    line-height: 1.25;
+    margin: 24px 0 16px;
+  }
+  .post-body h3 {
+    font-size: 22px;
+    line-height: 1.3;
+    margin: 24px 0 12px;
+  }
+  .post-body ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    line-height: 30px;
+    margin: 0 0 32px;
+  }
+  .post-body ul > li {
+    padding-left: 24px;
+    position: relative;
+  }
+  .post-body ul > li::before {
+    color: var(--muted);
+    content: "–";
+    left: 0;
+    position: absolute;
+  }
+  .post-body ol {
+    list-style: decimal;
+    margin: 0 0 32px;
+    padding-left: 1.5em;
+  }
+  .post-body strong {
+    font-weight: 700;
+  }
+  .post-body a {
+    color: var(--note);
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+  }
+  .post-body a:hover,
+  .post-body a:focus-visible {
+    text-decoration-line: underline;
+  }
+  .post-body :not(pre) > code {
+    background: var(--code-bg);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 1px 5px;
+  }
+  .post-body pre.shiki {
+    background-color: var(--code-bg) !important;
+    border: 1px solid var(--rule-soft);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 32px;
+    overflow-x: auto;
+    padding: 16px 20px;
+  }
+}
+
+@layer components {
+  /* The highlighter sits on its own layer so the blackboard's smear filter
+     roughens the stroke without touching the text over it. */
+  .marker {
+    display: inline-block;
+    isolation: isolate;
+    position: relative;
+  }
+  .marker::before {
+    background: linear-gradient(
+      176deg,
+      transparent 34%,
+      var(--marker) 36%,
+      var(--marker) 86%,
+      transparent 88%
+    );
+    content: "";
+    inset: 0 -4px;
+    position: absolute;
+    z-index: -1;
+  }
+  [data-theme="dark"] .marker::before {
+    filter: url(#smear);
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 14%,
+      #000 80%,
+      transparent
+    );
+  }
+
+  /* Chalk wear: the #chalk filter in +layout.svelte eats into the letterforms. */
+  .chalk {
+    filter: url(#chalk);
+  }
+
+  /* The page-corner theme toggle. Hover and focus roll the flap up around the
+     fold. A click turns the page in a view transition (theme-corner.svelte):
+     the theme flips at once, data-turning leaves only the old sheet's flap on
+     the corner while the component grows it, and the old page's snapshot is
+     cut away in step, so the new page shows through the growing corner. Then
+     data-settle drops every transition so the corner snaps back. */
+  .theme-corner {
+    --corner-ease: cubic-bezier(0.25, 0.8, 0.3, 1);
+    height: 48px;
+    perspective: 220px;
+    transition:
+      width 440ms var(--corner-ease),
+      height 440ms var(--corner-ease);
+    width: 48px;
+  }
+  .theme-corner-icon {
+    opacity: 0.45;
+    transform: scale(0.92);
+    transition:
+      opacity 440ms var(--corner-ease),
+      transform 440ms var(--corner-ease);
+  }
+  .theme-corner-shadow {
+    opacity: 0.12;
+    transform: translate(-1px, 2px);
+    transition:
+      opacity 440ms var(--corner-ease),
+      transform 440ms var(--corner-ease);
+  }
+  .theme-corner-flap {
+    background: linear-gradient(
+      to top right,
+      color-mix(in srgb, var(--flap) 90%, #000) 0%,
+      var(--flap) 30%,
+      color-mix(in srgb, var(--flap) 88%, #fff) 50%
+    );
+    /* Turning about the diagonal lifts the tip off the page toward the viewer. */
+    transform: rotate3d(1, 1, 0, 0deg);
+    transition: transform 440ms var(--corner-ease);
+  }
+
+  .theme-corner:is(:hover, :focus-visible):not([data-turning]) {
+    height: 80px;
+    width: 80px;
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-shadow,
+  .theme-corner[data-turning] .theme-corner-shadow {
+    opacity: 0.18;
+    transform: translate(-4px, 6px);
+  }
+  .theme-corner:is(:hover, :focus-visible):not([data-turning])
+    .theme-corner-flap {
+    transform: rotate3d(1, 1, 0, 42deg);
+  }
+
+  /* The component animates the size; a CSS transition here would outrank it. */
+  .theme-corner[data-turning] {
+    transition: none;
+  }
+  .theme-corner[data-turning] .theme-corner-under,
+  .theme-corner[data-turning] .theme-corner-icon {
+    visibility: hidden;
+  }
+  .theme-corner[data-turning] .theme-corner-shadow,
+  .theme-corner[data-turning] .theme-corner-flap {
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  .theme-corner[data-settle],
+  .theme-corner[data-settle] * {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-corner,
+    .theme-corner * {
+      transition: none;
+    }
+  }
+
+  /* During a page turn the old page's snapshot sits on top of the live new
+     page, with no cross-fade; theme-corner.svelte animates its clip-path. */
+  html[data-theme-turn]::view-transition-old(root),
+  html[data-theme-turn]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  html[data-theme-turn]::view-transition-old(root) {
+    z-index: 1;
   }
 }
