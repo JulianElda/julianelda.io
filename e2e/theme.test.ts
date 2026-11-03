@@ -83,7 +83,7 @@ test("theme persists across a reload after toggling", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
 
-test("the corner turns the page before the theme flips", async ({ page }) => {
+test("the corner turns the page over the new theme", async ({ page }) => {
   await page.emulateMedia({
     colorScheme: "light",
     reducedMotion: "no-preference",
@@ -94,11 +94,12 @@ test("the corner turns the page before the theme flips", async ({ page }) => {
   const corner = page.getByRole("button", { name: "Blackboard theme" });
   await corner.click();
 
+  // The theme flips as the turn starts; the old page's snapshot hides it.
   await expect(corner).toHaveAttribute("data-turning");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
   await expect(corner).not.toHaveAttribute("data-turning");
+  await expect(page.locator("html")).not.toHaveAttribute("data-theme-turn");
 });
 
 test("with reduced motion the theme flips without a page turn", async ({

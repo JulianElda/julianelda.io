@@ -2,17 +2,23 @@
   import type { Theme } from "$lib/theme/theme.types";
 
   import { toggleTheme } from "$lib/theme/theme.utils";
-  import { onDestroy, onMount } from "svelte";
+  import { flushSync, onDestroy, onMount } from "svelte";
 
-  // Matches the 560ms page-turn sweep in layout.css's .theme-corner rules.
   const TURN_MS = 560;
+  const TURN_EASING = "cubic-bezier(0.65, 0, 0.35, 1)";
+  // A top-right square this big puts its diagonal through the viewport's
+  // bottom-left corner, so the turned corner covers the whole screen.
+  const TURNED_SIZE = "calc(100vw + 100vh)";
 
   let theme = $state<Theme>("light");
   let isDark = $derived(theme === "dark");
   let isTurning = $state(false);
   let isSettling = $state(false);
+  // The flap and its fold are the back of the sheet being turned, so they
+  // keep the old theme's colours after the theme flips underneath them.
+  let pinnedFlap = $state<string>();
+  let pinnedFold = $state<string>();
 
-  let turnTimer: ReturnType<typeof setTimeout> | undefined;
   let settleFrame: number | undefined;
 
   // The component renders on the server without knowing the theme, so the
@@ -23,34 +29,88 @@
   });
 
   onDestroy(() => {
-    clearTimeout(turnTimer);
     if (settleFrame !== undefined) {
       cancelAnimationFrame(settleFrame);
     }
   });
 
-  function handleClick() {
+  // Cuts a top-right square of the given size out of the old page's snapshot,
+  // 1px short so the old page overlaps the flap's edges instead of leaving an
+  // antialiased seam where the new page shows through.
+  function cutCorner(cornerSize: string) {
+    const size = `calc(${cornerSize} - 1px)`;
+    return `polygon(0 0, calc(100% - ${size}) 0, calc(100% - ${size}) ${size}, 100% ${size}, 100% 100%, 0 100%)`;
+  }
+
+  function handleClick(
+    event: MouseEvent & { currentTarget: HTMLButtonElement },
+  ) {
     if (isTurning) {
       return;
     }
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      !("startViewTransition" in document) ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       theme = toggleTheme();
       return;
     }
 
-    isTurning = true;
-    turnTimer = setTimeout(() => {
+    const button = event.currentTarget;
+    const root = document.documentElement;
+    const from = `${button.getBoundingClientRect().width}px`;
+    const style = getComputedStyle(button);
+    const flap = style.getPropertyValue("--flap");
+    const fold = style.getPropertyValue("--fold");
+
+    root.dataset.themeTurn = "";
+    const transition = document.startViewTransition(() => {
       theme = toggleTheme();
+      isTurning = true;
+      pinnedFlap = flap;
+      pinnedFold = fold;
+      flushSync();
+    });
+
+    let grow: Animation | undefined;
+    transition.ready
+      .then(() => {
+        const timing = {
+          duration: TURN_MS,
+          easing: TURN_EASING,
+          fill: "forwards",
+        } as const;
+        root.animate(
+          { clipPath: [cutCorner(from), cutCorner(TURNED_SIZE)] },
+          { ...timing, pseudoElement: "::view-transition-old(root)" },
+        );
+        grow = button.animate(
+          {
+            height: [from, TURNED_SIZE],
+            width: [from, TURNED_SIZE],
+          },
+          timing,
+        );
+      })
+      // A skipped transition (e.g. a hidden tab) still runs the update.
+      .catch(() => {});
+
+    void transition.finished.finally(() => {
+      delete root.dataset.themeTurn;
       isTurning = false;
+      pinnedFlap = undefined;
+      pinnedFold = undefined;
       // Two frames with transitions off, so the corner snaps back to its
       // resting size instead of shrinking over the new theme.
       isSettling = true;
+      flushSync();
+      grow?.cancel();
       settleFrame = requestAnimationFrame(() => {
         settleFrame = requestAnimationFrame(() => {
           isSettling = false;
         });
       });
-    }, TURN_MS);
+    });
   }
 </script>
 
@@ -61,11 +121,13 @@
   data-settle={isSettling || undefined}
   data-turning={isTurning || undefined}
   onclick={handleClick}
+  style:--flap={pinnedFlap}
+  style:--fold={pinnedFold}
   title={isDark ? "Turn back to paper" : "Turn to the blackboard"}
   type="button">
   <svg
     aria-hidden="true"
-    class="absolute inset-0 block size-full"
+    class="theme-corner-under absolute inset-0 block size-full"
     preserveAspectRatio="none"
     viewBox="0 0 100 100">
     <polygon

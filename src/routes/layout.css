@@ -361,9 +361,11 @@
   }
 
   /* The page-corner theme toggle. Hover and focus roll the flap up around the
-     fold; a click sets data-turning, which sweeps the corner across the whole
-     viewport before theme-corner.svelte flips the theme, then data-settle
-     drops every transition so the corner snaps back on the new theme. */
+     fold. A click turns the page in a view transition (theme-corner.svelte):
+     the theme flips at once, data-turning leaves only the old sheet's flap on
+     the corner while the component grows it, and the old page's snapshot is
+     cut away in step, so the new page shows through the growing corner. Then
+     data-settle drops every transition so the corner snaps back. */
   .theme-corner {
     --corner-ease: cubic-bezier(0.25, 0.8, 0.3, 1);
     height: 48px;
@@ -419,17 +421,13 @@
     transform: rotate3d(1, 1, 0, 42deg);
   }
 
-  /* 100vw + 100vh puts the diagonal through the viewport's bottom-left
-     corner, so the other theme's paper covers the whole screen. */
+  /* The component animates the size; a CSS transition here would outrank it. */
   .theme-corner[data-turning] {
-    height: calc(100vw + 100vh);
-    transition:
-      width 560ms cubic-bezier(0.65, 0, 0.35, 1),
-      height 560ms cubic-bezier(0.65, 0, 0.35, 1);
-    width: calc(100vw + 100vh);
+    transition: none;
   }
+  .theme-corner[data-turning] .theme-corner-under,
   .theme-corner[data-turning] .theme-corner-icon {
-    opacity: 0;
+    visibility: hidden;
   }
   .theme-corner[data-turning] .theme-corner-shadow,
   .theme-corner[data-turning] .theme-corner-flap {
@@ -447,5 +445,16 @@
     .theme-corner * {
       transition: none;
     }
+  }
+
+  /* During a page turn the old page's snapshot sits on top of the live new
+     page, with no cross-fade; theme-corner.svelte animates its clip-path. */
+  html[data-theme-turn]::view-transition-old(root),
+  html[data-theme-turn]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  html[data-theme-turn]::view-transition-old(root) {
+    z-index: 1;
   }
 }
