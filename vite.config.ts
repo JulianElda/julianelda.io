@@ -9,6 +9,8 @@ import { escapeSvelte, mdsvex } from "mdsvex";
 import { createHighlighter } from "shiki";
 import { defineConfig } from "vitest/config";
 
+import { rehypeExternalLinks } from "./src/lib/markdown.utils";
+
 const highlighterPromise = createHighlighter({
   langs: [
     "javascript",
@@ -62,6 +64,7 @@ export default defineConfig({
         mdsvex({
           extensions: [".svx", ".md"],
           highlight: { highlighter: highlightCode },
+          rehypePlugins: [rehypeExternalLinks],
         }),
       ],
     }),

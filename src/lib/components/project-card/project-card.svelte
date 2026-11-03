@@ -35,5 +35,6 @@
   <a
     class="flex min-h-11 items-center self-start text-[17px] text-strong italic decoration-dotted decoration-2 underline-offset-5 hover:underline focus-visible:underline"
     href={project.href}
-    rel="external">{project.linkLabel}</a>
+    rel="external noopener noreferrer"
+    target="_blank">{project.linkLabel}</a>
 </article>
