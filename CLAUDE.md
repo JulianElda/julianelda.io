@@ -9,6 +9,7 @@ or multi-author concerns anywhere in the design. Hosted on Vercel as the primary
 - `/home` — homepage (About: intro, Currently, Recent writings, Contact)
 - `/contact` — redirects (308) to `/home`; contact links live on the homepage
 - `/projects` — project list
+- `/photos` — curated photos as prints in a masonry wall, each opening in a viewer
 - `/posts` — blog ("Writing"), all posts grouped by year
 - `/posts/[slug]` — individual post
 
@@ -86,12 +87,46 @@ Non-goals). Keep new fields off this list unless you're deliberately extending t
   `content/posts/<slug>/index.svx`. The load also imports the raw source to compute
   reading time (`getReadingMinutes()`, 200 words per minute).
 - `src/routes/projects/+page.svelte` — project cards from `src/lib/projects.constants.ts`.
+- `src/routes/photos/+page.svelte` — every photo in `PHOTOS` (`src/lib/photos.constants.ts`) as a
+  `photo-print`, opening in `photo-viewer` (a native modal `<dialog>`).
+
+## Photos
+
+`/photos` is curated: posts may show its photos, but a post's own co-located images never appear
+on it.
+
+- `content/photos/<slug>.jpg` plus `content/photos/photos.json`, an array in display order (newest
+  first). The slug is the filename and the handle posts use; it is never the shot date or the
+  camera's filename, and there are no date folders.
+- **Every website copy has no metadata at all**: no GPS, dates, serial numbers or camera tags. The
+  camera details the page shows live in `photos.json`, and only for photos that show them. The
+  repo is public, so details left out there are not just hidden but absent.
+- `scripts/add-photo.sh [--meta | --no-meta] <source> <slug> <caption> <alt>` is the only way in.
+  It applies the EXIF rotation to the pixels, shrinks to fit 2400px, converts to sRGB, drops all
+  metadata (`vipsthumbnail … [keep=none]`), and runs the check below on its own output. It reads
+  only camera, lens, focal length, aperture, shutter and ISO from the original, mapped through
+  `scripts/photo-gear.json` (display names; `kind` `camera` or `phone`; `interchangeableLens`). An
+  unknown camera or lens stops it: add it to that file. Details are written for cameras and left
+  out for phones unless `--meta`/`--no-meta` says otherwise.
+- Display rules (`src/lib/photos.utils.ts`): the lens, and the focal length as recorded (not
+  35mm-equivalent), only for interchangeable lenses; shutter speeds as recorded (`1/53s`).
+- `scripts/check-photo-metadata.sh` allows a fixed set of structural exiftool groups and fails on
+  anything else. lefthook runs it with `--staged` on every staged image under `content/`, checking
+  the staged blob rather than the working tree.
+- In a post: `import Photo from "$lib/components/photo/photo.svelte"` in the `.svx` script block,
+  then `<Photo slug="…" />`. `src/lib/photos.test.ts` fails on a slug missing from `photos.json`,
+  and on a JPEG and `photos.json` that disagree.
+- `@sveltejs/enhanced-img` makes AVIF/WebP/JPEG at 400–2400px at build time; it never enlarges.
+  Uncached that costs ~5s per photo; the cache lives in `node_modules/.cache/imagetools`.
 
 ## File structure
 
 ```
 julianelda.io/
 ├── content/
+│   ├── photos/
+│   │   ├── photos.json            # /photos entries, display order
+│   │   └── <slug>.jpg             # metadata-free, ≤2400px (scripts/add-photo.sh)
 │   └── posts/
 │       └── <slug>/
 │           ├── index.svx          # post body + frontmatter
@@ -99,7 +134,8 @@ julianelda.io/
 ├── src/
 │   ├── lib/
 │   │   ├── components/            # site-header, theme-corner, section-heading,
-│   │   │                          #   leader-row, project-card
+│   │   │                          #   leader-row, project-card, photo-print,
+│   │   │                          #   photo-viewer, photo (for posts)
 │   │   └── fonts/                 # Heliotrope woff2, gitignored (see Fonts)
 │   └── routes/
 │       ├── +layout.svelte
@@ -108,12 +144,16 @@ julianelda.io/
 │       ├── home/                  # About page
 │       ├── contact/+page.ts       # redirects (308) to /home
 │       ├── projects/+page.svelte
+│       ├── photos/+page.svelte
 │       └── posts/
 │           ├── +page.svelte       # all posts, grouped by year
 │           └── [slug]/
 │               └── +page.svelte   # individual post
 ├── scripts/
-│   └── fetch-fonts.ts             # fills src/lib/fonts/ before dev/build
+│   ├── fetch-fonts.ts             # fills src/lib/fonts/ before dev/build
+│   ├── add-photo.sh               # the only way a photo enters content/photos/
+│   ├── check-photo-metadata.sh    # pre-commit: images carry no metadata
+│   └── photo-gear.json            # camera and lens display names
 ├── static/                        # served at the site root, unhashed
 │   ├── favicon.ico                # must stay at / — external fetchers
 │   ├── favicon.svg                #   (Vercel, crawlers, unfurlers) look
@@ -171,9 +211,10 @@ bun run test      # test:unit (vitest, --run) then test:e2e (playwright)
   one instead of leaving two instances running.
 - Invoke the `playwright-cli` skill via `bunx playwright-cli ...`, not `npx` — this repo
   uses Bun as its package manager/runtime.
-- `flake.nix` (loaded by direnv via `.envrc`) provides bun, node and the Playwright
-  browsers: on NixOS the browsers Playwright downloads itself cannot run. Those browsers
-  only work with the npm Playwright of the same version, so `playwright` and
+- `flake.nix` (loaded by direnv via `.envrc`) provides bun, node, exiftool, vips and jq (for the
+  photo scripts) and the Playwright browsers. The agent's shell does not load direnv, so run those
+  tools via `nix develop -c …`. The browsers come from the flake because on NixOS the ones
+  Playwright downloads itself cannot run. They only work with the npm Playwright of the same version, so `playwright` and
   `@playwright/test` are pinned exactly to the flake's `playwright-driver`, and
   `overrides` in `package.json` forces `@playwright/cli` onto that same `playwright-core`
   instead of its bundled alpha. After `nix flake update`, the shell prints the

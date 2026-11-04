@@ -2,6 +2,7 @@ import type { BundledLanguage } from "shiki";
 
 import { sentrySvelteKit } from "@sentry/sveltekit";
 import adapter from "@sveltejs/adapter-vercel";
+import { enhancedImages } from "@sveltejs/enhanced-img";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "@vitest/browser-playwright";
@@ -42,6 +43,8 @@ export default defineConfig({
       project: "homepage",
     }),
     tailwindcss(),
+    // Must come before sveltekit(): it rewrites <enhanced:img> before Svelte compiles it.
+    enhancedImages(),
     sveltekit({
       adapter: adapter({
         runtime: "nodejs22.x",

@@ -131,6 +131,10 @@
   --marker: var(--ink-marker);
   --flap: var(--ink-flap);
   --fold: var(--ink-rule);
+  /* photo prints stay paper-white on the board, so their ink does not flip */
+  --print: var(--ink-print);
+  --print-caption: var(--ink-print-caption);
+  --print-meta: var(--ink-print-meta);
 }
 
 [data-theme="dark"] {
@@ -148,6 +152,9 @@
   --marker: var(--chalk-marker);
   --flap: var(--chalk-flap);
   --fold: var(--chalk-fold);
+  --print: var(--chalk-print);
+  --print-caption: var(--chalk-print-caption);
+  --print-meta: var(--chalk-print-meta);
 }
 
 @theme inline {
@@ -165,6 +172,11 @@
   --color-marker: var(--marker);
   --color-flap: var(--flap);
   --color-fold: var(--fold);
+  --color-print: var(--print);
+  --color-print-caption: var(--print-caption);
+  --color-print-meta: var(--print-meta);
+  --color-overlay: var(--overlay);
+  --color-overlay-button: var(--overlay-button);
 
   --font-body: "Heliotrope 3", Georgia, serif;
   --font-display: "Heliotrope 4", Georgia, serif;
@@ -177,6 +189,10 @@
   }
   html[data-theme="dark"] {
     color-scheme: dark;
+  }
+  /* A modal <dialog> makes the page inert but still lets it scroll behind. */
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
 
   body {

@@ -11,6 +11,7 @@
     pathname === "/posts" || pathname.startsWith("/posts/"),
   );
   let isProjects = $derived(pathname === "/projects");
+  let isPhotos = $derived(pathname === "/photos");
 </script>
 
 <header
@@ -35,6 +36,12 @@
         class={linkClass}
         href={resolve("/projects")}>
         <span class={{ marker: isProjects }}>Projects</span>
+      </a>
+      <a
+        aria-current={isPhotos ? "page" : undefined}
+        class={linkClass}
+        href={resolve("/photos")}>
+        <span class={{ marker: isPhotos }}>Photos</span>
       </a>
     </nav>
   </div>

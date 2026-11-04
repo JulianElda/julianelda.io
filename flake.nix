@@ -15,6 +15,9 @@
           packages = with pkgs; [
             bun # package manager and runtime
             nodejs # node_modules/.bin/{lefthook,nano-staged,playwright,playwright-cli} are #!/usr/bin/env node
+            exiftool # scripts/add-photo.sh reads originals; scripts/check-photo-metadata.sh guards commits
+            vips # scripts/add-photo.sh: vipsthumbnail rotates, resizes, converts to sRGB and drops metadata
+            jq # scripts/add-photo.sh builds the photos.json entry
           ];
 
           # Playwright cannot use its own downloaded browsers here: the Chrome it

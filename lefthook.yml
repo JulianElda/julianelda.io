@@ -4,6 +4,11 @@ pre-commit:
   jobs:
     - name: nano-staged
       run: ./node_modules/.bin/nano-staged --quiet
+    # The repo is public: an image with GPS or dates in it must never land in
+    # history, where deleting it later does not take it back.
+    - name: photo-metadata
+      glob: "content/**/*.{jpg,jpeg,png,webp,avif,gif,JPG,JPEG,PNG}"
+      run: scripts/check-photo-metadata.sh --staged {staged_files}
 
 commit-msg:
   jobs:

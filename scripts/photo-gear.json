@@ -1,0 +1,42 @@
+{
+  "bodies": {
+    "Compactline 203": {
+      "interchangeableLens": false,
+      "kind": "camera",
+      "name": "Rollei Compactline 203"
+    },
+    "E-M1MarkIII": {
+      "interchangeableLens": true,
+      "kind": "camera",
+      "name": "Olympus E-M1 Mark III"
+    },
+    "RICOH GR III": {
+      "interchangeableLens": false,
+      "kind": "camera",
+      "name": "Ricoh GR III"
+    },
+    "W810i": {
+      "interchangeableLens": false,
+      "kind": "phone",
+      "name": "Sony Ericsson W810i"
+    },
+    "X100S": {
+      "interchangeableLens": false,
+      "kind": "camera",
+      "name": "Fujifilm X100S"
+    },
+    "XQ-ES54": {
+      "interchangeableLens": false,
+      "kind": "phone",
+      "name": "Sony Xperia (XQ-ES54)"
+    },
+    "XT1032": {
+      "interchangeableLens": false,
+      "kind": "phone",
+      "name": "Motorola Moto G"
+    }
+  },
+  "lenses": {
+    "OLYMPUS M.14-42mm F3.5-5.6 II": "M.Zuiko 14–42mm F3.5–5.6 II"
+  }
+}
