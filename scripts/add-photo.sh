@@ -1,29 +1,31 @@
 #!/usr/bin/env bash
-# Adds a photo to /photos: writes content/photos/<slug>.jpg and puts its entry
-# at the top of content/photos/photos.json, which is the display order.
+# Adds photos to /photos: writes content/photos/<slug>.jpg for each and puts
+# its entry at the top of content/photos/photos.json, which is the display
+# order. Folders are read one level deep; photos go in oldest first, so the
+# newest ends up on top.
 #
-# The JPEG keeps nothing but pixels: rotation is applied to them, it is shrunk
+# Each JPEG keeps nothing but pixels: rotation is applied to them, it is shrunk
 # to fit 2400px and converted to sRGB, and every metadata tag is dropped, then
 # scripts/check-photo-metadata.sh must pass on it before it lands.
+#
+# New photos get a hash of the processed image as a temporary slug and an empty
+# caption and alt; scripts/name-photo.sh gives them readable ones. Running the
+# same folder twice skips what is already in, whatever it was named.
 #
 # Camera details are read from the original and only for what the page shows:
 # camera, lens with focal length (interchangeable lenses only), aperture,
 # shutter and ISO. Never location, dates or serial numbers. They are written
 # for cameras and left out for phones (kind in scripts/photo-gear.json);
-# --meta or --no-meta overrides that. Left out means absent from the public
-# repo, not just hidden on the page.
+# --meta or --no-meta overrides that for every photo given. Left out means
+# absent from the public repo, not just hidden on the page.
 #
-# usage: scripts/add-photo.sh [--meta | --no-meta] <source> <slug> <caption> <alt>
+# usage: scripts/add-photo.sh [--meta | --no-meta] <file or folder>...
 
 set -euo pipefail
 
 die() {
   echo "add-photo: $*" >&2
   exit 1
-}
-
-usage() {
-  die "usage: scripts/add-photo.sh [--meta | --no-meta] <source> <slug> <caption> <alt>"
 }
 
 for tool in exiftool jq vipsthumbnail; do
@@ -35,50 +37,82 @@ photos_dir="$root/content/photos"
 manifest="$photos_dir/photos.json"
 gear="$root/scripts/photo-gear.json"
 
-meta=default
+meta_flag=default
 case "${1-}" in
 --meta)
-  meta=yes
+  meta_flag=yes
   shift
   ;;
 --no-meta)
-  meta=no
+  meta_flag=no
   shift
   ;;
 esac
-[ $# -eq 4 ] || usage
-source=$1 slug=$2 caption=$3 alt=$4
+[ $# -gt 0 ] || die "usage: scripts/add-photo.sh [--meta | --no-meta] <file or folder>..."
 
-[ -f "$source" ] || die "$source: no such file"
-[[ $slug =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || die "slug must be lowercase words joined by hyphens: $slug"
-dest="$photos_dir/$slug.jpg"
-[ ! -e "$dest" ] || die "$dest already exists"
+is_image() {
+  case "${1,,}" in
+  *.jpg | *.jpeg | *.png | *.webp | *.heic | *.heif | *.avif) return 0 ;;
+  *) return 1 ;;
+  esac
+}
+
+sources=()
+for arg in "$@"; do
+  if [ -d "$arg" ]; then
+    for file in "$arg"/*; do
+      [ -f "$file" ] || continue
+      if is_image "$file"; then
+        sources+=("$file")
+      else
+        echo "skipped ${file##*/}: not a photo the script reads (export raws to JPEG first)"
+      fi
+    done
+  elif [ -f "$arg" ] && is_image "$arg"; then
+    sources+=("$arg")
+  else
+    die "$arg: not a photo or a folder"
+  fi
+done
+[ ${#sources[@]} -gt 0 ] || die "no photos found"
+
 mkdir -p "$photos_dir"
 [ -f "$manifest" ] || echo "[]" >"$manifest"
-if jq -e --arg slug "$slug" 'any(.[]; .slug == $slug)' "$manifest" >/dev/null; then
-  die "photos.json already has $slug"
-fi
 
-# Only the fields the page can show are ever read out of the original.
-exif=$(exiftool -json -n -Model -LensModel -FocalLength -FNumber -ExposureTime -ISO -- "$source" | jq '.[0]')
-model=$(jq -r '.Model // empty' <<<"$exif")
-body=$(jq -c --arg model "$model" '.bodies[$model] // empty' "$gear")
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
 
-if [ "$meta" = default ]; then
-  if [ -n "$body" ] && [ "$(jq -r .kind <<<"$body")" = camera ]; then
-    meta=yes
-  elif [ -z "$body" ] && [ -n "$model" ]; then
-    die "unknown camera \"$model\": add it to scripts/photo-gear.json"
-  else
-    meta=no
+# Oldest first; the capture time is only used for this order, never stored.
+# Photos without one go first.
+mapfile -t sources < <(
+  exiftool -q -json -n -DateTimeOriginal -- "${sources[@]}" |
+    jq -r 'sort_by(.DateTimeOriginal // "" | tostring) | .[].SourceFile'
+)
+
+# Prints the camera details for one photo as JSON, or "null" for none.
+meta_for() {
+  local source=$1 exif model body show=$meta_flag
+  # Only the fields the page can show are ever read out of the original.
+  exif=$(exiftool -json -n -Model -LensModel -FocalLength -FNumber -ExposureTime -ISO -- "$source" | jq '.[0]')
+  model=$(jq -r '.Model // empty' <<<"$exif")
+  body=$(jq -c --arg model "$model" '.bodies[$model] // empty' "$gear")
+
+  if [ -z "$body" ] && [ -n "$model" ] && [ "$show" != no ]; then
+    die "${source##*/}: unknown camera \"$model\": add it to scripts/photo-gear.json"
   fi
-fi
-if [ "$meta" = yes ] && [ -z "$body" ]; then
-  die "no camera details: ${model:-the file records no camera model}${model:+ is not in scripts/photo-gear.json}"
-fi
+  if [ "$show" = default ]; then
+    show=no
+    [ -n "$body" ] && [ "$(jq -r .kind <<<"$body")" = camera ] && show=yes
+  fi
+  if [ "$show" = yes ] && [ -z "$body" ]; then
+    die "${source##*/}: the file records no camera model"
+  fi
+  if [ "$show" = no ]; then
+    echo null
+    return
+  fi
 
-if [ "$meta" = yes ]; then
-  meta_json=$(jq -n \
+  jq -n \
     --argjson exif "$exif" \
     --argjson body "$body" \
     --argjson lenses "$(jq .lenses "$gear")" '
@@ -94,32 +128,45 @@ if [ "$meta" = yes ]; then
     + if $exif.FNumber then {aperture: ($exif.FNumber | round1)} else {} end
     + if $exif.ExposureTime then {shutter: ($exif.ExposureTime | shutter)} else {} end
     + if $exif.ISO then {iso: $exif.ISO} else {} end
-  ') || die "could not build the camera details"
-else
-  meta_json=null
-fi
+  ' || die "${source##*/}: could not build the camera details"
+}
 
-work=$(mktemp -d)
-trap 'rm -rf "$work"' EXIT
+added=0
+for source in "${sources[@]}"; do
+  meta=$(meta_for "$source")
 
-# vipsthumbnail applies the EXIF rotation to the pixels and only ever shrinks.
-vipsthumbnail "$source" \
-  --size '2400x2400>' \
-  --export-profile srgb \
-  -o "$work/$slug.jpg[Q=85,optimize_coding,keep=none]"
-"$root/scripts/check-photo-metadata.sh" "$work/$slug.jpg" ||
-  die "the processed file still carries metadata; nothing was added"
+  # vipsthumbnail applies the EXIF rotation to the pixels and only ever shrinks.
+  vipsthumbnail "$source" \
+    --size '2400x2400>' \
+    --export-profile srgb \
+    -o "$work/photo.jpg[Q=85,optimize_coding,keep=none]"
+  "$root/scripts/check-photo-metadata.sh" "$work/photo.jpg" ||
+    die "${source##*/}: the processed file still carries metadata; it was not added"
 
-entry=$(jq -n \
-  --arg slug "$slug" \
-  --arg caption "$caption" \
-  --arg alt "$alt" \
-  --argjson meta "$meta_json" \
-  '{slug: $slug, caption: $caption, alt: $alt} + if $meta then {meta: $meta} else {} end')
+  # The same original always processes to the same bytes, so a matching hash
+  # means it is already in, whatever its slug was renamed to.
+  hash=$(sha256sum "$work/photo.jpg" | cut -d' ' -f1)
+  existing=""
+  shopt -s nullglob
+  current=("$photos_dir"/*.jpg)
+  shopt -u nullglob
+  if [ ${#current[@]} -gt 0 ]; then
+    existing=$(sha256sum "${current[@]}" | awk -v hash="$hash" '$1 == hash { print $2 }')
+  fi
+  if [ -n "$existing" ]; then
+    existing=${existing##*/}
+    echo "skipped ${source##*/}: already added as ${existing%.jpg}"
+    continue
+  fi
+  slug=${hash:0:10}
 
-mv "$work/$slug.jpg" "$dest"
-jq --argjson entry "$entry" '[$entry] + .' "$manifest" >"$work/photos.json"
-mv "$work/photos.json" "$manifest"
+  mv "$work/photo.jpg" "$photos_dir/$slug.jpg"
+  jq --arg slug "$slug" --argjson meta "$meta" \
+    '[{slug: $slug, caption: "", alt: ""} + if $meta then {meta: $meta} else {} end] + .' \
+    "$manifest" >"$work/photos.json"
+  mv "$work/photos.json" "$manifest"
+  added=$((added + 1))
+  echo "added ${source##*/} as $slug ($(vipsheader -f width "$photos_dir/$slug.jpg")x$(vipsheader -f height "$photos_dir/$slug.jpg"))"
+done
 
-echo "added content/photos/$slug.jpg ($(vipsheader -f width "$dest")x$(vipsheader -f height "$dest"))"
-jq . <<<"$entry"
+echo "$added added. Give each a slug, caption and alt text with scripts/name-photo.sh."

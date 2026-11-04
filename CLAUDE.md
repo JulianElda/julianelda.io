@@ -93,21 +93,25 @@ Non-goals). Keep new fields off this list unless you're deliberately extending t
 ## Photos
 
 `/photos` is curated: posts may show its photos, but a post's own co-located images never appear
-on it.
+on it. To add photos from a folder, use the `add-photos` skill (`.claude/skills/add-photos/`).
 
 - `content/photos/<slug>.jpg` plus `content/photos/photos.json`, an array in display order (newest
   first). The slug is the filename and the handle posts use; it is never the shot date or the
-  camera's filename, and there are no date folders.
+  camera's filename, and there are no date folders. `add-photo.sh` gives new photos a hash
+  slug and empty `caption` and `alt`; `scripts/name-photo.sh <slug> <new-slug> <caption> <alt>`
+  renames the JPEG and its entry together. Never rename one without the other.
 - **Every website copy has no metadata at all**: no GPS, dates, serial numbers or camera tags. The
   camera details the page shows live in `photos.json`, and only for photos that show them. The
   repo is public, so details left out there are not just hidden but absent.
-- `scripts/add-photo.sh [--meta | --no-meta] <source> <slug> <caption> <alt>` is the only way in.
-  It applies the EXIF rotation to the pixels, shrinks to fit 2400px, converts to sRGB, drops all
-  metadata (`vipsthumbnail … [keep=none]`), and runs the check below on its own output. It reads
-  only camera, lens, focal length, aperture, shutter and ISO from the original, mapped through
-  `scripts/photo-gear.json` (display names; `kind` `camera` or `phone`; `interchangeableLens`). An
-  unknown camera or lens stops it: add it to that file. Details are written for cameras and left
-  out for phones unless `--meta`/`--no-meta` says otherwise.
+- `scripts/add-photo.sh [--meta | --no-meta] <file or folder>...` is the only way in. It adds
+  photos oldest first (newest ends on top) and skips any whose processed bytes match a JPEG already
+  in `content/photos/`, whatever its slug. It applies the EXIF rotation to the pixels, shrinks to
+  fit 2400px, converts to sRGB, drops all metadata (`vipsthumbnail … [keep=none]`), and runs the
+  check below on its own output. It reads only camera, lens, focal length, aperture, shutter and
+  ISO from the original, mapped through `scripts/photo-gear.json` (display names; `kind` `camera`
+  or `phone`; `interchangeableLens`). An unknown camera or lens stops it: add it to that file.
+  Details are written for cameras and left out for phones unless `--meta`/`--no-meta` says
+  otherwise.
 - Display rules (`src/lib/photos.utils.ts`): the lens, and the focal length as recorded (not
   35mm-equivalent), only for interchangeable lenses; shutter speeds as recorded (`1/53s`).
 - `scripts/check-photo-metadata.sh` allows a fixed set of structural exiftool groups and fails on
@@ -152,6 +156,7 @@ julianelda.io/
 ├── scripts/
 │   ├── fetch-fonts.ts             # fills src/lib/fonts/ before dev/build
 │   ├── add-photo.sh               # the only way a photo enters content/photos/
+│   ├── name-photo.sh              # readable slug, caption, alt for an added photo
 │   ├── check-photo-metadata.sh    # pre-commit: images carry no metadata
 │   └── photo-gear.json            # camera and lens display names
 ├── static/                        # served at the site root, unhashed

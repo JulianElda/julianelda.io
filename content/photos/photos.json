@@ -1,1 +1,107 @@
-[]
+[
+  {
+    "slug": "frost-and-fog",
+    "caption": "frost and fog",
+    "alt": "Spruce silhouettes above a fog-filled valley, frost on the grass by a fence post",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 17
+      },
+      "aperture": 8,
+      "shutter": "1/1000",
+      "iso": 200
+    }
+  },
+  {
+    "slug": "bench-in-the-fog",
+    "caption": "Wallbergbahn",
+    "alt": "An empty wooden bench on a grassy slope, a cable car line with two gondolas fading into thick fog",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 25
+      },
+      "aperture": 13,
+      "shutter": "1/8000",
+      "iso": 200
+    }
+  },
+  {
+    "slug": "light-over-the-valley",
+    "caption": "view on Wallberg",
+    "alt": "Forested ridges in hazy sunlight, a green clearing in the valley and a peak under white clouds",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 17
+      },
+      "aperture": 5.6,
+      "shutter": "1/1250",
+      "iso": 200
+    }
+  },
+  {
+    "slug": "church-window",
+    "caption": "St. Laurentius",
+    "alt": "A tall arched window with leaded glass in a dark church interior, a small crystal chandelier hanging beside it",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 20
+      },
+      "aperture": 5.6,
+      "shutter": "1/2500",
+      "iso": 200
+    }
+  },
+  {
+    "slug": "boat-on-a-grey-lake",
+    "caption": "foggy autumn in Malerwinkl",
+    "alt": "A small boat crossing a grey lake between steep cliffs, seen through autumn branches from behind a wooden railing",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 18
+      },
+      "aperture": 8,
+      "shutter": "1/20",
+      "iso": 400
+    }
+  },
+  {
+    "slug": "benches-by-the-lake",
+    "caption": "benches by the lake",
+    "alt": "Moss-covered tree trunks framing a lawn with two benches at the edge of a green lake, autumn trees glowing yellow",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 42
+      },
+      "aperture": 8,
+      "shutter": "1/30",
+      "iso": 200
+    }
+  },
+  {
+    "slug": "larch-slopes",
+    "caption": "Jenner summit",
+    "alt": "Golden larches and dark spruce on a mountainside below a pale rock face, a track winding past a few huts, snowy peaks in the distance",
+    "meta": {
+      "camera": "Olympus E-M1 Mark III",
+      "lens": {
+        "name": "M.Zuiko 14–42mm F3.5–5.6 II",
+        "focalLength": 42
+      },
+      "aperture": 8,
+      "shutter": "1/160",
+      "iso": 200
+    }
+  }
+]
