@@ -22,9 +22,7 @@
 
 <main class="flex flex-col">
   <h1 class="sr-only">Photos</h1>
-  <p class="mb-14 text-muted italic">
-    Snapshots, kept like prints tucked into the back of the notebook.
-  </p>
+  <p class="mb-14 text-muted italic">Photos I'm proud of.</p>
 
   <!-- Columns, not a grid: prints keep their own aspect ratio and stack like a
        masonry wall, at least 136px wide and at most three across. -->
@@ -32,6 +30,7 @@
     {#each PHOTOS as photo (photo.slug)}
       <div class="mb-[clamp(14px,4vw,28px)] break-inside-avoid">
         <PhotoPrint
+          captionOnHover
           onopen={() => (openSlug = photo.slug)}
           {photo}
           sizes="(min-width: 720px) 208px, 45vw" />

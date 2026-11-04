@@ -10,6 +10,20 @@ test("the Photos nav link is current on /photos", async ({ page }) => {
   ).toHaveAttribute("aria-current", "page");
 });
 
+test("a print shows its caption only while hovered", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/photos");
+
+  const print = page.getByRole("button", { name: "Open photo: Jenner summit" });
+  const caption = print.locator("figcaption");
+  await expect(caption).toHaveCSS("opacity", "0");
+
+  await print.hover();
+
+  await expect(caption).toHaveCSS("opacity", "1");
+  await expect(print.locator("figure")).toHaveCSS("scale", "1.03");
+});
+
 test("a photo opens with its caption, gear and exposure", async ({ page }) => {
   await page.goto("/photos");
   await page.waitForLoadState("networkidle");
@@ -42,6 +56,18 @@ test("Escape closes the viewer and returns focus to the print", async ({
 
   await expect(page.getByRole("dialog")).toBeHidden();
   await expect(print).toBeFocused();
+});
+
+test("the theme corner hides while a photo is open", async ({ page }) => {
+  await page.goto("/photos");
+  await page.waitForLoadState("networkidle");
+  const corner = page.getByRole("button", { name: "Blackboard theme" });
+
+  await page.getByRole("button", { name: "Open photo: frost and fog" }).click();
+  await expect(corner).toBeHidden();
+
+  await page.keyboard.press("Escape");
+  await expect(corner).toBeVisible();
 });
 
 test("clicking outside the print closes the viewer", async ({ page }) => {

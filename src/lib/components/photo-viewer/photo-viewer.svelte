@@ -51,7 +51,7 @@
 <dialog
   bind:this={dialog}
   aria-label={photo?.caption}
-  class="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none items-center justify-center bg-transparent p-6 backdrop:bg-overlay open:flex"
+  class="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none items-center justify-center bg-transparent p-6 backdrop:animate-backdrop-in backdrop:bg-overlay open:flex motion-reduce:backdrop:animate-none"
   onclick={handleClick}
   {onclose}>
   {#if photo}
@@ -73,7 +73,8 @@
         <path d="M18 6L6 18" />
       </svg>
     </button>
-    <figure class="bg-print px-4 pt-4 shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
+    <figure
+      class="animate-print-in bg-print px-4 pt-4 shadow-[0_12px_40px_rgba(0,0,0,0.45)] motion-reduce:animate-none">
       <enhanced:img
         alt={photo.alt}
         class="block h-auto bg-[#ddd]"
