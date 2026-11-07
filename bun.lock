@@ -6,6 +6,7 @@
       "name": "julianelda.io",
       "dependencies": {
         "@fontsource/ibm-plex-mono": "^5.3.0",
+        "@julianelda-private/heliotrope": "^1.0.0",
         "@sentry/sveltekit": "^10",
       },
       "devDependencies": {
@@ -286,6 +287,8 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
+
+    "@julianelda-private/heliotrope": ["@julianelda-private/heliotrope@1.0.0", "https://npm.pkg.github.com/download/@julianelda-private/heliotrope/1.0.0/fcafbd66085cc08f90a2d39491662e9a42fe2999", {}, "sha512-LpP/p1WBSTv1ewmaCmuLaus3B4SyIk9FWIOs4PrwIG+IdwlTYNQhmES3Nmp9e9FnV8BOLYU/nOfQMCoLNkAxdA=="],
 
     "@julianelda/lexis": ["@julianelda/lexis@3.5.0", "", { "peerDependencies": { "oxfmt": "^0.56.0", "oxlint": "^1.71.0", "oxlint-tsgolint": "^0.23.0", "typescript": "^7.0.1-rc" } }, "sha512-VhHkwcPW5Smo3ktYLsqDVB0dVM5qiVnj36M4Q8yESmPwhxTbzs91kI+m7cHbybnaOMmMpO1EgQm8U7sUGDdkjg=="],
 

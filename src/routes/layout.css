@@ -1,65 +1,9 @@
 @import "tailwindcss";
 @import "@fontsource/ibm-plex-mono/400.css";
+@import "@julianelda-private/heliotrope/heliotrope-3.css";
+@import "@julianelda-private/heliotrope/heliotrope-4.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-/* Heliotrope is licensed and gitignored; scripts/fetch-fonts.ts fills src/lib/fonts/. */
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 3";
-  font-style: normal;
-  font-weight: 400;
-  src: url("../lib/fonts/heliotrope_3_regular.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 3";
-  font-style: italic;
-  font-weight: 400;
-  src: url("../lib/fonts/heliotrope_3_italic.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 3";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../lib/fonts/heliotrope_3_bold.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 3";
-  font-style: italic;
-  font-weight: 700;
-  src: url("../lib/fonts/heliotrope_3_bold_italic.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 4";
-  font-style: normal;
-  font-weight: 400;
-  src: url("../lib/fonts/heliotrope_4_regular.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 4";
-  font-style: italic;
-  font-weight: 400;
-  src: url("../lib/fonts/heliotrope_4_italic.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 4";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../lib/fonts/heliotrope_4_bold.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Heliotrope 4";
-  font-style: italic;
-  font-weight: 700;
-  src: url("../lib/fonts/heliotrope_4_bold_italic.woff2") format("woff2");
-}
 
 :root {
   /* light theme: stationery */

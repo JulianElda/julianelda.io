@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun scripts/fetch-fonts.ts && vite build",
+    "build": "vite build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "dev": "bun scripts/fetch-fonts.ts && vite dev",
+    "dev": "vite dev",
     "format": "oxfmt",
     "lint": "oxlint && eslint .",
     "prepare": "svelte-kit sync || echo '' && lefthook install",
@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@julianelda-private/heliotrope": "^1.0.0",
     "@sentry/sveltekit": "^10"
   },
   "devDependencies": {

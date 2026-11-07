@@ -29,7 +29,8 @@ repo. Publishing a post is a git push, not an API call.
   Headings get chalk wear (`.chalk`) and the blackboard's nav highlighter a smear, from
   the SVG filters `#chalk` and `#smear` rendered once in `src/routes/+layout.svelte`.
 - **Fonts** — Heliotrope 3 (body, `font-body`) and Heliotrope 4 (headings, `font-display`),
-  licensed from MB Type; IBM Plex Mono (`font-mono`) via `@fontsource/ibm-plex-mono`
+  licensed from MB Type, via the private `@julianelda-private/heliotrope` package;
+  IBM Plex Mono (`font-mono`) via `@fontsource/ibm-plex-mono`
 - **mdsvex** — markdown/MDX (`.svx`) processing for posts
 - **shiki** — code syntax highlighting, wired into mdsvex's `highlight` option (not
   mdsvex's default Prism highlighter)
@@ -137,10 +138,9 @@ julianelda.io/
 │           └── *.{png,jpg,svg,…}  # co-located post images
 ├── src/
 │   ├── lib/
-│   │   ├── components/            # site-header, theme-corner, section-heading,
-│   │   │                          #   leader-row, project-card, photo-print,
-│   │   │                          #   photo-viewer, photo (for posts)
-│   │   └── fonts/                 # Heliotrope woff2, gitignored (see Fonts)
+│   │   └── components/            # site-header, theme-corner, section-heading,
+│   │                              #   leader-row, project-card, photo-print,
+│   │                              #   photo-viewer, photo (for posts)
 │   └── routes/
 │       ├── +layout.svelte
 │       ├── +page.ts               # redirects (307) to /home
@@ -154,7 +154,6 @@ julianelda.io/
 │           └── [slug]/
 │               └── +page.svelte   # individual post
 ├── scripts/
-│   ├── fetch-fonts.ts             # fills src/lib/fonts/ before dev/build
 │   ├── add-photo.sh               # the only way a photo enters content/photos/
 │   ├── name-photo.sh              # readable slug, caption, alt for an added photo
 │   ├── check-photo-metadata.sh    # pre-commit: images carry no metadata
@@ -175,16 +174,16 @@ julianelda.io/
 
 Heliotrope is licensed from MB Type, and the licence forbids storing the font files
 anywhere non-licensees can reach. This repo is public, so **never commit them**.
-`src/lib/fonts/` is gitignored and filled by `scripts/fetch-fonts.ts`, which runs before
-`dev` and `build`:
+They come from the private `@julianelda-private/heliotrope` package on GitHub Packages
+(repo `julianelda-private/heliotrope`), whose `heliotrope-3.css` and `heliotrope-4.css`
+hold the `@font-face` rules that `layout.css` imports; Vite bundles the woff2 from there.
 
-- Locally, copy the eight `heliotrope_{3,4}_{regular,italic,bold,bold_italic}.woff2` files
-  into `src/lib/fonts/` once from the licensed download; the script then exits without a
-  network call.
-- On Vercel (or anywhere the files are missing), set `FONTS_TOKEN` to a fine-grained token
-  with read-only Contents access to the private `JulianElda/heliotrope` repo; the
-  script downloads them from its root.
-- With neither, `dev` and `build` fail with a message naming the missing files.
+- `.npmrc` sends the `@julianelda-private` scope to `npm.pkg.github.com`, authenticated
+  by `NPM_GITHUB_TOKEN`: a classic PAT with only `read:packages` (fine-grained tokens
+  do not work with the npm registry). Set it in your shell and on Vercel; without it,
+  `bun install` fails with a 401.
+- To update the fonts, publish a new version from the heliotrope repo (bump
+  `package.json`, push a matching `v*` tag) and bump the dependency here.
 
 ## Non-goals
 
