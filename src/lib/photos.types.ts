@@ -4,6 +4,8 @@ import type { Picture } from "@sveltejs/enhanced-img";
 export interface Photo {
   alt: string;
   caption: string;
+  /** Kept off /photos, but posts can still show it, e.g. a screenshot. */
+  hidden?: boolean;
   /**
    * Absent when the page shows none, which is the default for phones. The repo
    * is public, so details the page hides are not stored either.

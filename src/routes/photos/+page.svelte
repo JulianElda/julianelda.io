@@ -1,10 +1,12 @@
 <script lang="ts">
   import PhotoPrint from "$lib/components/photo-print/photo-print.svelte";
   import PhotoViewer from "$lib/components/photo-viewer/photo-viewer.svelte";
-  import { PHOTOS } from "$lib/photos.constants";
+  import { GALLERY_PHOTOS } from "$lib/photos.constants";
 
   let openSlug: string | undefined = $state();
-  let openPhoto = $derived(PHOTOS.find((photo) => photo.slug === openSlug));
+  let openPhoto = $derived(
+    GALLERY_PHOTOS.find((photo) => photo.slug === openSlug),
+  );
 </script>
 
 <svelte:head>
@@ -27,7 +29,7 @@
   <!-- Columns, not a grid: prints keep their own aspect ratio and stack like a
        masonry wall, at least 136px wide and at most three across. -->
   <div class="columns-[136px_3] gap-x-[clamp(14px,4vw,28px)]">
-    {#each PHOTOS as photo (photo.slug)}
+    {#each GALLERY_PHOTOS as photo (photo.slug)}
       <div class="mb-[clamp(14px,4vw,28px)] break-inside-avoid">
         <PhotoPrint
           captionOnHover

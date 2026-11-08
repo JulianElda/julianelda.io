@@ -16,7 +16,7 @@ const images = import.meta.glob<Picture>("/content/photos/*.jpg", {
 // assigns to Photo[] but has no fields to read. Entries are still checked.
 const photos: Photo[] = entries;
 
-/** Every photo on /photos, in display order (newest added first). */
+/** Every photo in photos.json, in display order (newest added first). */
 export const PHOTOS: PhotoWithImage[] = photos.map((photo) => {
   const image = images[`/content/photos/${photo.slug}.jpg`];
   if (!image) {
@@ -26,3 +26,8 @@ export const PHOTOS: PhotoWithImage[] = photos.map((photo) => {
   }
   return Object.assign({ image }, photo);
 });
+
+/** The photos /photos shows: every one not marked hidden. */
+export const GALLERY_PHOTOS: PhotoWithImage[] = PHOTOS.filter(
+  (photo) => !photo.hidden,
+);

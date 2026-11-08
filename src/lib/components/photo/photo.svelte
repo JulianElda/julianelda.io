@@ -26,6 +26,7 @@
 
 <div class="mx-auto mt-2 mb-10 w-[min(300px,80%)]">
   <PhotoPrint
+    captionOnHover
     onopen={() => (isOpen = true)}
     {photo}
     sizes="300px" />

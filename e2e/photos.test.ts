@@ -10,6 +10,19 @@ test("the Photos nav link is current on /photos", async ({ page }) => {
   ).toHaveAttribute("aria-current", "page");
 });
 
+test("a hidden photo stays off /photos", async ({ page }) => {
+  await page.goto("/photos");
+
+  await expect(
+    page.getByRole("button", { name: "Open photo: frost and fog" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: "Open photo: the old homepage, light theme",
+    }),
+  ).toHaveCount(0);
+});
+
 test("a print shows its caption only while hovered", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/photos");

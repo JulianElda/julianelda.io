@@ -120,7 +120,10 @@ on it. To add photos from a folder, use the `add-photos` skill (`.claude/skills/
   the staged blob rather than the working tree.
 - In a post: `import Photo from "$lib/components/photo/photo.svelte"` in the `.svx` script block,
   then `<Photo slug="…" />`. `src/lib/photos.test.ts` fails on a slug missing from `photos.json`,
-  and on a JPEG and `photos.json` that disagree.
+  and on a JPEG and `photos.json` that disagree. Wrap several `<Photo>`s in `<PhotoRow>`
+  (`photo-row.svelte`) to show them side by side, stacked on mobile.
+- `"hidden": true` on a `photos.json` entry keeps it off `/photos` (`GALLERY_PHOTOS`) while posts
+  can still show it: for images that belong in a post but not on the wall, such as screenshots.
 - `@sveltejs/enhanced-img` makes AVIF/WebP/JPEG at 400–2400px at build time; it never enlarges.
   Uncached that costs ~5s per photo; the cache lives in `node_modules/.cache/imagetools`.
 
@@ -140,7 +143,7 @@ julianelda.io/
 │   ├── lib/
 │   │   └── components/            # site-header, theme-corner, section-heading,
 │   │                              #   leader-row, project-card, photo-print,
-│   │                              #   photo-viewer, photo (for posts)
+│   │                              #   photo-viewer, photo, photo-row (for posts)
 │   └── routes/
 │       ├── +layout.svelte
 │       ├── +page.ts               # redirects (307) to /home
