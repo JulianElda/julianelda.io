@@ -1,0 +1,69 @@
+---
+title: Redesigning my website with Claude
+slug: redesigning-my-website-with-claude
+description: How I redesigned this site without writing a single line of code
+date: "2026-11-08"
+draft: false
+---
+
+<script>
+  import Photo from "$lib/components/photo/photo.svelte";
+  import PhotoRow from "$lib/components/photo-row/photo-row.svelte";
+</script>
+
+tldr; I designed the site with Claude and let Claude Code do its magic. Front-end development is just vibes now.
+
+## How it started
+
+Recently I discovered that Claude can make designs. I am well aware that Claude can write code (I use Claude Code at work), and that any LLM can make images, but a professional-looking, polished, coherent design? Guess I'll have to try it out myself.
+
+## Previous design
+
+The inspiration for the design was grid notebook paper. I wanted the website to feel like you are looking at a handwritten note on a grid notepad.
+
+<PhotoRow>
+  <Photo slug="old-home-light" />
+  <Photo slug="old-home-dark" />
+</PhotoRow>
+
+I hand-coded this website initially: design, colours, styles, etc. I made a separate repository to share styles and components across my websites, this site included. There was only so much I could do myself in my spare time, and I wanted to keep the design simple anyway, so the overall design and colours looked basic.
+
+<Photo slug="old-projects-dark" />
+
+Looking back after the redesign, there were some aspects of this implementation I was not satisfied with. First, the dark theme didn't look right. The light theme was like handwriting on a white piece of paper, simple enough. However, flipping the colours does not magically make a good dark theme. Second, I am not good at drafting designs, and with little time to build and maintain it, the website ended up looking a bit flat and uninspiring. Finally, since I had already built a shared component library, I felt obligated to use it and keep my other websites consistent for consistency's sake, regardless of how they ended up looking.
+
+## Vibe-design
+
+I opened Claude on the web and prompted. Gave it the url to my live website and its github url. Described my inspiration and overall vibe I wanted, with some screenshots of notebooks and journals from Google. I specifically asked it to brainstorm ideas; I didn't need any code yet.
+
+Its first response was long, verbose, and full of implementation detail. I skipped all the texts, asked for some mock designs instead and let it cook.
+
+<Photo slug="first-mockups" />
+
+Finally, more visuals, fewer words. I liked some designs, like the book cover version, or the preface page, but those didn't work well in mobile. The tabbed version gave a feel of paper on top of a desk, but also looked awkward on mobile. I then combined the elements I liked, mostly from journal landing, to make the current version of the website.
+
+I had a theme for the look and feel in general: stationery. Background is dotted paper, easy enough. Ink colours for text and headings followed naturally. Not so with dark theme, dark coloured paper is uncommon after all. I went with film photography theme instead, and Claude borrowed colours from film emulsions.
+
+Conveniently, all this happened in Claude on the web, I just chatted with Claude as I always did, and it made all the design as an artifact.
+
+## Make it happen, Claude
+
+Once I was happy with the design, I headed over to Claude Code on my desktop, gave it the artifact url, and let it do its magic. There was not many pages to begin with, within fifteen minutes I was looking at a dev server running the new design. I went to sleep at that point and left it there.
+
+The next morning, I had a different idea. Instead of film photography theme, I went with chalkboard theme. Back to prompting Claude.
+
+<Photo slug="chalkboard-home" />
+
+Nice. Some adjustments later, I had a new dark theme. I played around with the new design a bit and asked for some animations. A couple of prompts later, light and dark theme is animated like flipping a page of a book.
+
+<Photo slug="page-curl" />
+
+## Old ways, new ways
+
+A year ago, I would not have believed that AI could redesign my website. Made a version of it, sure, but not in the design and direction I wanted. Now it can. I can chat, upload images, point to some existing websites to brainstorm ideas, asked the model to create a mock design in the same chat, and use that design to create a working implementation.
+
+Even better, I can keep the designs in Claude Artifacts as the master version, ask for changes, then ask Claude Code to make the changes. It also works the other way around: I could make the code changes first, then ask the model to update the design in the artifact. I don't need to maintain a Figma design or pay for a premium Figma seat, Claude has its own version of Figma now.
+
+If you are looking to make your own website but don't know how to, you should give AI-assisted design and development a try. Remember: you still own the design. If you don't like what it makes, steer it to the direction you want.
+
+Overall, I enjoyed this new process of designing my website, and I hope you like how it turned out.

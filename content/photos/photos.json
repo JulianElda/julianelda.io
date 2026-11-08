@@ -1,5 +1,41 @@
 [
   {
+    "slug": "page-curl",
+    "caption": "like turning a page of a book",
+    "alt": "Two frames of the theme switch: a dark page curling diagonally away to uncover the light homepage beneath it, caught at two points in the turn",
+    "hidden": true
+  },
+  {
+    "slug": "chalkboard-home",
+    "caption": "the homepage in chalkboard theme",
+    "alt": "The homepage in the chalkboard theme: light text on a dark dotted board, with salmon section headings for Currently, Recent writings and Contact",
+    "hidden": true
+  },
+  {
+    "slug": "first-mockups",
+    "caption": "the first mockups from Claude",
+    "alt": "Six homepage mockups on cream dotted and grid paper: a title page, an owner’s page with an index, a preface with margin notes, a contents page with an epigraph, a journal page landing, and a writing page with paper tabs along the top",
+    "hidden": true
+  },
+  {
+    "slug": "old-projects-dark",
+    "caption": "basic heading and text, nothing stands out",
+    "alt": "The previous projects page in dark theme: underlined project names with short descriptions on navy grid paper",
+    "hidden": true
+  },
+  {
+    "slug": "old-home-dark",
+    "caption": "the old homepage, dark theme",
+    "alt": "The same homepage in dark theme: light text and links on navy grid paper",
+    "hidden": true
+  },
+  {
+    "slug": "old-home-light",
+    "caption": "the old homepage, light theme",
+    "alt": "The previous homepage in light theme: a name heading, navigation links and two short paragraphs in dark blue ink on faint grid paper",
+    "hidden": true
+  },
+  {
     "slug": "frost-and-fog",
     "caption": "frost and fog",
     "alt": "Spruce silhouettes above a fog-filled valley, frost on the grass by a fence post",

@@ -6,7 +6,7 @@ test("/posts groups posts by year with a count", async ({ page }) => {
   await expect(
     page.getByRole("heading", { level: 2, name: "2026" }),
   ).toBeVisible();
-  await expect(page.getByText("2 posts")).toBeVisible();
+  await expect(page.getByText("3 posts")).toBeVisible();
 });
 
 test("the Writing nav link is current on a post page", async ({ page }) => {
