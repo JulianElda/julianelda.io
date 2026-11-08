@@ -22,10 +22,11 @@
 </script>
 
 <!-- The hovered print lifts above its neighbours, so its slight growth
-     overlaps them instead of slipping under the next one in the column. -->
+     overlaps them instead of slipping under the next one in the column. Only
+     one step up: the sticky header (z-10) still passes over it. -->
 <button
   aria-label={`Open photo: ${photo.caption}`}
-  class="group relative block w-full cursor-zoom-in text-left hover:z-10 focus-visible:z-10"
+  class="group relative block w-full cursor-zoom-in text-left hover:z-1 focus-visible:z-1"
   onclick={onopen}
   type="button">
   <figure

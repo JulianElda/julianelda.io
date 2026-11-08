@@ -50,7 +50,7 @@
   --chalk-coral: #f2a99b;
   --chalk-yellow: #eadb8c;
   --chalk-marker: rgba(155, 227, 236, 0.38);
-  --chalk-print: #f3f1eb;
+  --chalk-print: #ffffff;
   --chalk-print-caption: #3a3833;
   --chalk-print-meta: #66645e;
   --chalk-flap: #313436;
@@ -147,8 +147,12 @@
 }
 
 @layer base {
+  /* Always keep room for the scrollbar, so the header and column do not shift
+     sideways between short and long pages, or when the photo viewer locks
+     scrolling. Overlay scrollbars (macOS, mobile) take no room either way. */
   html {
     color-scheme: light;
+    scrollbar-gutter: stable;
   }
   html[data-theme="dark"] {
     color-scheme: dark;

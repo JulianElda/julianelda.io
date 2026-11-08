@@ -26,11 +26,8 @@
     property="og:description" />
 </svelte:head>
 
-<!-- Posts sit closer to the header than other pages: half of
-     clamp(48px, 9vh, 96px) instead of half of the layout's
-     clamp(56px, 10vh, 112px), and 72px below. -->
-<article
-  class="-mt-[calc((clamp(56px,10vh,112px)-clamp(48px,9vh,96px))/2)] flex flex-col pb-4">
+<!-- 72px below: the layout's 56px plus 16px under the back link. -->
+<article class="flex flex-col pb-4">
   <p class="mb-3 text-[17px] leading-normal text-muted italic">
     <time datetime={data.metadata.date}>{formatDate(data.metadata.date)}</time>
     · {data.readingMinutes} min read
